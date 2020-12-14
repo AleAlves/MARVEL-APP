@@ -4,14 +4,18 @@
     android:id="@+id/toolbar"
     android:layout_width="match_parent"
     android:layout_height="@dimen/size_60dp"
+    app:title=""
     android:background="@drawable/toolbar_background"
     android:elevation="@dimen/size_4dp"
     android:padding="@dimen/size_8dp">
 
-    <ImageButton
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+    <ImageView
+        android:id="@+id/toolbar_image_button"
+        android:layout_width="@dimen/size_30dp"
+        android:layout_height="@dimen/size_30dp"
         android:background="@null"
+        android:scaleType="fitXY"
+        android:src="@drawable/ic_baseline_local_movies_24"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 

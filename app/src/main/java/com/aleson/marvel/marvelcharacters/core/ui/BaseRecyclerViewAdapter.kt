@@ -1,4 +1,4 @@
-package br.com.nishizaki.mercados.app.core.ui
+package com.aleson.marvel.marvelcharacters.core.ui
 
 import android.view.LayoutInflater
 import android.view.View
