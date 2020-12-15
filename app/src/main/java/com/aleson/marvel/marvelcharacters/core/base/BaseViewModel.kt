@@ -2,6 +2,7 @@ package com.aleson.marvel.marvelcharacters.core.base
 
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
+import com.aleson.marvel.marvelcharacters.core.Exceptions
 import kotlinx.coroutines.*
 import kotlin.coroutines.CoroutineContext
 
@@ -14,7 +15,7 @@ abstract class BaseViewModel<ViewEvent> : ViewModel(), CoroutineScope {
 
     abstract fun setup()
 
-    abstract fun onError()
+    abstract fun onError(message: String?)
 
     override fun onCleared() {
         super.onCleared()
@@ -22,11 +23,11 @@ abstract class BaseViewModel<ViewEvent> : ViewModel(), CoroutineScope {
     }
 
     protected fun async(function: () -> Unit) {
-        launch {
+        CoroutineScope(coroutineContext).launch {
             try {
-                function.invoke()
+                suspend { function.invoke() }
             } catch (e: Exception) {
-                onError()
+                onError(Exceptions.COROUTINES.name)
             }
         }
     }

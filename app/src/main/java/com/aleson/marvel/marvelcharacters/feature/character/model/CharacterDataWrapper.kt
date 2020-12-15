@@ -1,4 +1,4 @@
-package com.aleson.marvel.marvelcharacters.core.model
+package com.aleson.marvel.marvelcharacters.feature.character.model
 
 data class CharacterDataWrapper(
     val copyright: String = "",

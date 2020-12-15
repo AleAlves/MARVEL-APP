@@ -13,7 +13,6 @@ import com.google.android.material.tabs.TabLayoutMediator
 
 class HomeFragment : BaseFragment() {
 
-    private lateinit var toolbarIcon: ImageView
     private lateinit var tabLayout: TabLayout
     private lateinit var viewPager: ViewPager2
     private lateinit var fragmentAdapter: ViewPagerFragmentAdapter
@@ -23,9 +22,10 @@ class HomeFragment : BaseFragment() {
     override fun getFragmentLayout() = R.layout.fragment_home
 
     override fun onBindView(view: View) {
-        toolbarIcon = view.findViewById(R.id.toolbar_image_button)
         tabLayout = view.findViewById(R.id.tab_layout)
         viewPager = view.findViewById(R.id.home_viewpager)
+        toolbar = view.findViewById(R.id.toolbar)
+        toolbarIcon = view.findViewById(R.id.toolbar_image_button)
     }
 
     override fun setupView() {

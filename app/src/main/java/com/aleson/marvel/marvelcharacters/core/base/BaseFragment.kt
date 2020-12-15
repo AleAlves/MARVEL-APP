@@ -6,12 +6,17 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.ImageView
 import android.widget.Toast
-import com.aleson.marvel.marvelcharacters.core.base.BaseDialogFragment
+import androidx.appcompat.widget.Toolbar
+import com.aleson.marvel.marvelcharacters.R
 
 abstract class BaseFragment : BaseDialogFragment() {
 
-    private var dialog : Dialog? = null
+    lateinit var toolbarIcon: ImageView
+    lateinit var toolbar: Toolbar
+
+    private var dialog : Dialog? =  null
 
     abstract fun getFragmentTag(): String?
 
@@ -55,7 +60,8 @@ abstract class BaseFragment : BaseDialogFragment() {
     }
 
 
-    fun showToast(context: Context?, string: String){
+    fun showToast(context: Context?, string: String?){
+        hideLoading()
         Toast.makeText(context, string, Toast.LENGTH_LONG).show()
     }
 
@@ -63,17 +69,17 @@ abstract class BaseFragment : BaseDialogFragment() {
         if(dialog == null){
             dialog = super.loading(context as Context) as Dialog
         }
-        if (dialog?.isShowing as Boolean){
+        if (dialog!!.isShowing as Boolean){
             throw Exception("Can't show more than one loading")
         }
         else {
-            dialog?.show()
+            dialog!!.show()
         }
     }
 
     fun hideLoading() {
-        if (dialog?.isShowing as Boolean)
-            dialog?.dismiss()
+        if (dialog!!.isShowing)
+            dialog!!.dismiss()
     }
 
 }

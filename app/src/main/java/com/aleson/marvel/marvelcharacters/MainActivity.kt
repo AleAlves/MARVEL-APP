@@ -5,6 +5,7 @@ import android.os.Bundle
 import br.com.connector.aleson.android.connector.Connector
 
 class MainActivity : AppCompatActivity() {
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         Connector.init("https://gateway.marvel.com")

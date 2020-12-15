@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/character_details_constraintlayout_item"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_margin="@dimen/size_8dp"
+    android:background="@drawable/card_itemview_background"
+    android:foreground="?android:attr/selectableItemBackground"
+    android:orientation="vertical">
+
+    <ImageView
+        android:id="@+id/character_details_imageview_image"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/size_150dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/character_details_textview_name"
+        style="@style/textBold16"
+
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_margin="@dimen/size_10dp"
+        android:padding="@dimen/size_8dp"
+        app:layout_constraintBottom_toBottomOf="@+id/imageview_character_image_button"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/imageview_character_image_button"
+        tools:text="Mercado" />
+
+    <ImageButton
+        android:id="@+id/imageview_character_image_button"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_margin="@dimen/size_10dp"
+        android:background="@null"
+        android:padding="@dimen/size_8dp"
+        android:src="@drawable/ic_baseline_favorite_24"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/character_details_imageview_image" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>

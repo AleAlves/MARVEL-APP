@@ -34,8 +34,4 @@ class FavoritesFragment : BaseFragment() {
 
     override fun oberserverEvent() {
     }
-
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-    }
 }

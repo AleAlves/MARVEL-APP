@@ -6,18 +6,33 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import com.aleson.marvel.marvelcharacters.R
+import com.aleson.marvel.marvelcharacters.core.base.BaseFragment
 
-class CharactersDetailFragment : Fragment() {
+class CharactersDetailFragment : BaseFragment() {
 
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
+    override fun getFragmentTag() = "CharactersDetailFragment"
+
+    override fun getFragmentLayout(): Int = R.layout.fragment_characters_detail
+
+    override fun onBindView(view: View) {
     }
 
-    override fun onCreateView(
-        inflater: LayoutInflater, container: ViewGroup?,
-        savedInstanceState: Bundle?
-    ): View? {
-        // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_characters_detail, container, false)
+    override fun setupView() {
+
+    }
+
+    override fun setupViewModel() {
+    }
+
+    override fun onBackPressed() {
+    }
+
+    override fun oberserverStates() {
+    }
+
+    override fun onClickListeners() {
+    }
+
+    override fun oberserverEvent() {
     }
 }

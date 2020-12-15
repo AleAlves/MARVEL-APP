@@ -5,23 +5,25 @@ import com.aleson.marvel.marvelcharacters.core.base.UseCaseRequest
 import com.aleson.marvel.marvelcharacters.core.base.UseCaseResponse
 import com.aleson.marvel.marvelcharacters.feature.character.model.CharacterDataWrapper
 import com.aleson.marvel.marvelcharacters.core.ErrorModel
+import com.aleson.marvel.marvelcharacters.feature.character.model.Character
 import com.aleson.marvel.marvelcharacters.feature.character.repository.CharactersRepository
 
 
-class GetCharactersRequest(var limite: String, var orderBy: String) : UseCaseRequest
+class SaveFavoriteRequest(var character: Character) : UseCaseRequest
 
-class GetCharactersResponse(val characters: CharacterDataWrapper) : UseCaseResponse
+class SaveFavoriteResponse() : UseCaseResponse
 
-class GetCharactersUseCase(private val repository: CharactersRepository) :
-    BaseUseCase<GetCharactersRequest, GetCharactersResponse>() {
+class SaveFavoriteUseCase(private val repository: CharactersRepository) :
+    BaseUseCase<SaveFavoriteRequest, SaveFavoriteResponse>() {
+
 
     override fun execute(
-        onResponse: (GetCharactersResponse?) -> Unit,
+        onResponse: (SaveFavoriteResponse?) -> Unit,
         onError: (ErrorModel?) -> Unit
     ) {
-        repository.getCharacters(
+        repository.saveFavorite(
             super.request,
-            { response -> onResponse(GetCharactersResponse(response)) },
+            { onResponse(SaveFavoriteResponse()) },
             { onError })
     }
 }

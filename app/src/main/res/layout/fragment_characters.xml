@@ -1,14 +1,35 @@
 <?xml version="1.0" encoding="utf-8"?>
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    tools:context=".feature.character.view.ui.CharactersFragment">
+    android:layout_height="wrap_content"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
 
-    <!-- TODO: Update blank fragment layout -->
-    <TextView
+    <com.google.android.material.textfield.TextInputLayout
+        android:id="@+id/characters_textinputlayout_search"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:text="Characters" />
+        android:layout_height="wrap_content"
+        android:layout_marginStart="@dimen/size_30dp"
+        android:layout_marginEnd="@dimen/size_30dp"
+        android:layout_marginTop="@dimen/size_8dp"
+        app:layout_constraintTop_toTopOf="parent"
+        app:startIconDrawable="@drawable/ic_baseline_search_24">
 
-</FrameLayout>
+        <EditText
+            android:id="@+id/characters_edittext_search"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@drawable/editext_itemview_background"
+            android:textSize="@dimen/font_10sp" />
+    </com.google.android.material.textfield.TextInputLayout>
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/characters_recyclerview"
+        android:layout_margin="@dimen/font_12sp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:paddingBottom="@dimen/size_200dp"
+        app:layout_constraintTop_toBottomOf="@+id/characters_textinputlayout_search" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>
