@@ -16,5 +16,7 @@ data class Character(
     @ColumnInfo(name = "description")
     val description: String = "",
     @ColumnInfo(name = "comics")
-    val comics: Comics? = null
+    val comics: Comics? = null,
+    @ColumnInfo(name = "series")
+    val series: Series? = null
 ) : Parcelable

@@ -3,4 +3,6 @@
 
     <string name="label_characters_header_title">Characters</string>
     <string name="label_favorites_header_title">Favorites</string>
+    <string name="label_details_title_comics">Comics</string>
+    <string name="label_details_title_series">Series</string>
 </resources>

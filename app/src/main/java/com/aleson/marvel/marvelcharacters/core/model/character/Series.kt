@@ -7,10 +7,7 @@ import kotlinx.android.parcel.Parcelize
 
 @Parcelize
 @Entity
-data class ComicsItem(
-    @ColumnInfo(name = "resourceURI")
-    val resourceURI: String? = null,
-    @ColumnInfo(name = "name")
-    val name: String = "",
-    var image: Image ?= null
+data class Series(
+    @ColumnInfo(name = "items")
+    val items: List<Resource>? = null
 ) : Parcelable

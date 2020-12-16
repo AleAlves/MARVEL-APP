@@ -1,4 +1,4 @@
-package com.aleson.marvel.marvelcharacters.feature.detail.view
+package com.aleson.marvel.marvelcharacters.feature.detail.view.event
 
 import com.aleson.marvel.marvelcharacters.core.model.comics.ComicsDataWrapper
 

@@ -6,7 +6,7 @@ import androidx.room.TypeConverters
 import com.aleson.marvel.marvelcharacters.core.model.character.Character
 
 @Database(entities = arrayOf(Character::class), version = 1)
-@TypeConverters(ImageTypeConverter::class, ComicsTypeConverter::class)
+@TypeConverters(ImageTypeConverter::class, ComicsTypeConverter::class, SeriesTypeConverter::class)
 abstract class AppDatabase : RoomDatabase() {
     abstract fun favorites(): CharacterDao
 }

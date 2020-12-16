@@ -3,8 +3,8 @@
 
     <color name="colorPrimary">#b71c1c</color>
     <color name="colorPrimaryDark">#7f0000</color>
-    <color name="background">#e0e0e0</color>
-    <color name="surface">#f1f1f1</color>
+    <color name="background">#f1f1f1</color>
+    <color name="surface">#e0e0e0</color>
     <color name="colorAccent">#f9a825</color>
     <color name="grey">#ff6f00</color>
     <color name="grey_dark">#D62020</color>
