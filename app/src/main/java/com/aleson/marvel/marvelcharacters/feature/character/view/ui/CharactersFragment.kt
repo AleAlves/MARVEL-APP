@@ -1,15 +1,16 @@
 package com.aleson.marvel.marvelcharacters.feature.character.view.ui
 
 import android.view.View
+import androidx.core.os.bundleOf
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
+import androidx.navigation.fragment.NavHostFragment
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.aleson.marvel.marvelcharacters.R
 import com.aleson.marvel.marvelcharacters.core.base.BaseFragment
-import com.aleson.marvel.marvelcharacters.feature.character.model.Character
-import com.aleson.marvel.marvelcharacters.feature.character.model.CharacterDataWrapper
-import com.aleson.marvel.marvelcharacters.core.ui.BaseRecyclerListener
+import com.aleson.marvel.marvelcharacters.core.model.character.Character
+import com.aleson.marvel.marvelcharacters.core.model.character.CharacterDataWrapper
 import com.aleson.marvel.marvelcharacters.core.ui.BaseRecyclerViewAdapter
 import com.aleson.marvel.marvelcharacters.feature.character.di.CharactersInjector
 import com.aleson.marvel.marvelcharacters.feature.character.view.event.CharactersViewEvent
@@ -18,9 +19,9 @@ import com.aleson.marvel.marvelcharacters.feature.character.viewmodel.Characters
 
 class CharactersFragment : BaseFragment() {
 
-    private lateinit var recyclerView: RecyclerView
-
     private lateinit var viewModel: CharactersViewModel
+
+    private lateinit var recyclerView: RecyclerView
 
     override fun getFragmentTag() = "CharactersFragment"
 
@@ -78,19 +79,19 @@ class CharactersFragment : BaseFragment() {
         viewModel.saveFavorite(character)
     }
 
-    private var groupClickListener: BaseRecyclerListener<Character> =
-        object : BaseRecyclerListener<Character> {
-
-            override fun onClickListener(data: Character, v: View, position: Int) {
-
-            }
-        }
+    fun setNavigationController(character: Character) {
+        val bundle = bundleOf("character" to character)
+        NavHostFragment.findNavController(this)
+            .navigate(R.id.action_home_destination_to_detailFragment, bundle)
+    }
 
     private var adapter: BaseRecyclerViewAdapter<Character> =
-        object : BaseRecyclerViewAdapter<Character>(groupClickListener) {
+        object : BaseRecyclerViewAdapter<Character>() {
 
             override fun getViewHolder(view: View, viewType: Int): RecyclerView.ViewHolder =
-                CharacterViewHolder(context, view) { saveFavorite(it) }
+                CharacterViewHolder(context, view,
+                    onItemSelected = { setNavigationController(it) },
+                    onFavorite = { saveFavorite(it) })
 
             override fun getLayoutId(position: Int, obj: Character) = R.layout.viewholder_character
         }

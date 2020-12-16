@@ -2,7 +2,7 @@ package com.aleson.marvel.marvelcharacters.core.di
 
 import android.content.Context
 import androidx.room.Room
-import com.aleson.marvel.marvelcharacters.feature.favorite.dao.AppDatabase
+import com.aleson.marvel.marvelcharacters.core.dao.AppDatabase
 
 abstract class BaseInjector {
 

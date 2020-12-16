@@ -3,7 +3,7 @@ package com.aleson.marvel.marvelcharacters.core.ui
 import androidx.fragment.app.Fragment
 import androidx.viewpager2.adapter.FragmentStateAdapter
 import com.aleson.marvel.marvelcharacters.feature.character.view.ui.CharactersFragment
-import com.aleson.marvel.marvelcharacters.feature.favorite.FavoritesFragment
+import com.aleson.marvel.marvelcharacters.feature.favorite.view.FavoritesFragment
 
 
 class ViewPagerFragmentAdapter(fragment: Fragment) : FragmentStateAdapter(fragment) {

@@ -1,6 +1,6 @@
 package com.aleson.marvel.marvelcharacters.feature.character.view.event
 
-import com.aleson.marvel.marvelcharacters.feature.character.model.CharacterDataWrapper
+import com.aleson.marvel.marvelcharacters.core.model.character.CharacterDataWrapper
 
 sealed class CharactersViewEvent {
 

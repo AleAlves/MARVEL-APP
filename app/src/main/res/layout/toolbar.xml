@@ -5,6 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="@dimen/size_60dp"
     app:title=""
+    style="@style/toolbar"
     android:background="@drawable/toolbar_background"
     android:elevation="@dimen/size_4dp"
     android:padding="@dimen/size_8dp">
@@ -15,7 +16,7 @@
         android:layout_height="@dimen/size_30dp"
         android:background="@null"
         android:scaleType="fitXY"
-        android:src="@drawable/ic_baseline_local_movies_24"
+        android:src="@drawable/ic_baseline_menu_book_24"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 

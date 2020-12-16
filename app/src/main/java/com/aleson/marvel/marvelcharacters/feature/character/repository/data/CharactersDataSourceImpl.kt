@@ -1,15 +1,15 @@
 package com.aleson.marvel.marvelcharacters.feature.character.repository.data
 
 import br.com.connector.aleson.android.connector.Connector
-import com.aleson.marvel.marvelcharacters.feature.character.model.CharacterDataWrapper
+import com.aleson.marvel.marvelcharacters.core.model.character.CharacterDataWrapper
 import com.aleson.marvel.marvelcharacters.core.ErrorModel
 import com.aleson.marvel.marvelcharacters.core.util.generateHash
 import com.aleson.marvel.marvelcharacters.feature.character.di.*
-import com.aleson.marvel.marvelcharacters.feature.character.model.Character
+import com.aleson.marvel.marvelcharacters.core.model.character.Character
 import com.aleson.marvel.marvelcharacters.feature.character.repository.api.GetCharactersApi
 import com.aleson.marvel.marvelcharacters.feature.character.usecase.GetCharactersRequest
 import com.aleson.marvel.marvelcharacters.feature.character.usecase.SaveFavoriteRequest
-import com.aleson.marvel.marvelcharacters.feature.favorite.dao.AppDatabase
+import com.aleson.marvel.marvelcharacters.core.dao.AppDatabase
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response

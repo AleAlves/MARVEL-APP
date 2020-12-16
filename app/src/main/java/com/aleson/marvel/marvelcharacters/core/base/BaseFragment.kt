@@ -15,7 +15,6 @@ abstract class BaseFragment : BaseDialogFragment() {
 
     lateinit var toolbarIcon: ImageView
     lateinit var toolbar: Toolbar
-
     private var dialog : Dialog? =  null
 
     abstract fun getFragmentTag(): String?

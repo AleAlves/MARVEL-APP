@@ -7,7 +7,7 @@ import com.aleson.marvel.marvelcharacters.core.ui.ViewPagerFragmentAdapter
 import com.aleson.marvel.marvelcharacters.R
 import com.aleson.marvel.marvelcharacters.core.base.BaseFragment
 import com.aleson.marvel.marvelcharacters.feature.character.view.ui.CharactersFragment
-import com.aleson.marvel.marvelcharacters.feature.favorite.FavoritesFragment
+import com.aleson.marvel.marvelcharacters.feature.favorite.view.FavoritesFragment
 import com.google.android.material.tabs.TabLayout
 import com.google.android.material.tabs.TabLayoutMediator
 

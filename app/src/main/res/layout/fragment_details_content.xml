@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <ImageView
+        android:id="@+id/character_details_imageview"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/size_300dp"
+        android:layout_marginStart="@dimen/size_8dp"
+        android:layout_marginTop="@dimen/size_8dp"
+        android:layout_marginEnd="@dimen/size_8dp"
+        android:scaleType="fitXY"
+        app:layout_constraintTop_toBottomOf="@+id/toolbar" />
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/character_details_contraintlayout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="@dimen/size_8dp"
+        android:padding="@dimen/size_16dp"
+        android:background="@drawable/card_itemview_background"
+        app:layout_constraintTop_toBottomOf="@+id/character_details_imageview">
+
+        <TextView
+            android:id="@+id/character_details_textview_description"
+            style="@style/textBold20"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintBottom_toBottomOf="parent"/>
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/comics_recyclerview"
+        android:layout_margin="@dimen/font_12sp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="@dimen/size_200dp"
+        app:layout_constraintTop_toBottomOf="@+id/character_details_contraintlayout"/>
+
+</androidx.constraintlayout.widget.ConstraintLayout>

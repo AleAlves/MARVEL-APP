@@ -1,8 +1,7 @@
 package com.aleson.marvel.marvelcharacters.feature.character.viewmodel
 
-import com.aleson.marvel.marvelcharacters.core.Exceptions
 import com.aleson.marvel.marvelcharacters.core.base.BaseViewModel
-import com.aleson.marvel.marvelcharacters.feature.character.model.Character
+import com.aleson.marvel.marvelcharacters.core.model.character.Character
 import com.aleson.marvel.marvelcharacters.feature.character.usecase.GetCharactersRequest
 import com.aleson.marvel.marvelcharacters.feature.character.usecase.GetCharactersUseCase
 import com.aleson.marvel.marvelcharacters.feature.character.usecase.SaveFavoriteRequest

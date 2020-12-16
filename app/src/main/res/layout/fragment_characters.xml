@@ -26,6 +26,7 @@
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/characters_recyclerview"
+        android:windowSoftInputMode="stateVisible|adjustNothing"
         android:layout_margin="@dimen/font_12sp"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"

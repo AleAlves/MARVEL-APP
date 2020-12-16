@@ -1,4 +1,4 @@
-package com.aleson.marvel.marvelcharacters.feature.character.model
+package com.aleson.marvel.marvelcharacters.core.model.character
 
 import android.os.Parcelable
 import androidx.room.Entity

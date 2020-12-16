@@ -2,6 +2,7 @@ package com.aleson.marvel.marvelcharacters
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.view.View
 import br.com.connector.aleson.android.connector.Connector
 
 class MainActivity : AppCompatActivity() {

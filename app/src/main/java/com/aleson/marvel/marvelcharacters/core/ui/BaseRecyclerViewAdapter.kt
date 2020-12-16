@@ -5,15 +5,13 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 
-abstract class BaseRecyclerViewAdapter<T> : RecyclerView.Adapter<RecyclerView.ViewHolder> {
+abstract class BaseRecyclerViewAdapter<T>() : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
 
     var listItems: MutableList<T>
-    var listener: BaseRecyclerListener<T>? = null
     private lateinit var viewHolder: RecyclerView.ViewHolder
 
-    constructor(listener: BaseRecyclerListener<T>? = null) {
+    init {
         listItems = mutableListOf()
-        this.listener = listener
     }
 
     override fun onCreateViewHolder(
@@ -28,7 +26,7 @@ abstract class BaseRecyclerViewAdapter<T> : RecyclerView.Adapter<RecyclerView.Vi
     }
 
     override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int) {
-        (holder as GenericBinder<T>).bind(listItems[position], listener, position)
+        (holder as GenericBinder<T>).bind(listItems[position], position)
     }
 
     override fun getItemCount(): Int {
@@ -73,22 +71,9 @@ abstract class BaseRecyclerViewAdapter<T> : RecyclerView.Adapter<RecyclerView.Vi
 
 interface BaseRecyclerListener<T> {
 
-    /**
-     * Function to catch onclicklistener in viewholder
-     *
-     * @param data: Generic any type of data
-     * @param v : View clicked
-     * @param code : Code asigned to view
-     */
     fun onClickListener(data: T, v: View, position: Int)
 }
 
 interface GenericBinder<T> {
-    /**
-     * Function to bind data in viewholder
-     *
-     * @param data : Generic Any type of data declared in interface
-     * @param listener : Onclick listener with Any tye of data declared in interface
-     */
-    fun bind(data: T, listener: BaseRecyclerListener<T>?, position: Int)
+    fun bind(data: T, position: Int)
 }

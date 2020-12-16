@@ -23,9 +23,9 @@ abstract class BaseViewModel<ViewEvent> : ViewModel(), CoroutineScope {
     }
 
     protected fun async(function: () -> Unit) {
-        CoroutineScope(coroutineContext).launch {
+        launch {
             try {
-                suspend { function.invoke() }
+                function.invoke()
             } catch (e: Exception) {
                 onError(Exceptions.COROUTINES.name)
             }
