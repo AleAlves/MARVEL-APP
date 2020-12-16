@@ -16,7 +16,7 @@
         android:layout_height="@dimen/size_30dp"
         android:background="@null"
         android:scaleType="fitXY"
-        android:src="@drawable/ic_baseline_menu_book_24"
+        android:src="@drawable/ic_baseline_local_movies_24"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 

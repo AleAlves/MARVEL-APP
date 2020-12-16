@@ -1,4 +1,4 @@
-package com.aleson.marvel.marvelcharacters.feature.detail
+package com.aleson.marvel.marvelcharacters.feature.detail.view
 
 import android.content.Context
 import android.view.View
@@ -27,8 +27,8 @@ class DetailsViewHolder(
         loadImageFromUrl(
             context as Context,
             Image(
-                path = data.resourceURI,
-                extension = "jpg"
+                path = data.image?.path,
+                extension = data.image?.extension
             ),
             image,
             R.drawable.comics_placeholder

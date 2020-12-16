@@ -21,3 +21,7 @@ fun loadImageFromUrl(context: Context, image: Image?, imageView: ImageView, plac
 fun getImageReady(image: Image?) : String {
     return image?.path.plus(".".plus(image?.extension))
 }
+
+fun getIdfromURI(path: String?) : String {
+    return path?.replace(Regex("[^0-9]"), "")as String
+}

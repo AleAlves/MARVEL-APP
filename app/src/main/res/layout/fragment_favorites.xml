@@ -7,9 +7,10 @@
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/characters_recyclerview"
-        android:layout_margin="@dimen/font_12sp"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:paddingBottom="@dimen/size_200dp" />
+        android:layout_margin="@dimen/font_12sp"
+        android:paddingBottom="@dimen/size_200dp"
+        android:windowSoftInputMode="adjustNothing" />
 
 </FrameLayout>

@@ -52,8 +52,7 @@ class CharactersDataSourceImpl(var database: AppDatabase?) : CharactersDataSourc
                 generateHash(timeStamp),
                 request.limite,
                 request.orderBy
-            )
-            .enqueue(call)
+            ).enqueue(call)
     }
 
     override fun saveFavorite(

@@ -26,7 +26,7 @@
         android:id="@+id/character_details_imageview_image"
         android:layout_width="@dimen/size_150dp"
         android:layout_height="@dimen/size_150dp"
-        android:layout_margin="@dimen/size_8dp"
+        android:layout_marginBottom="@dimen/size_16dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintBottom_toBottomOf="parent"/>

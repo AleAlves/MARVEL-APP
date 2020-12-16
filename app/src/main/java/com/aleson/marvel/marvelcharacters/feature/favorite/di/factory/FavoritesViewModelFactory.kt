@@ -6,7 +6,7 @@ import com.aleson.marvel.marvelcharacters.feature.favorite.di.provider.GetFavori
 import com.aleson.marvel.marvelcharacters.feature.favorite.repository.FavoritesRepository
 import com.aleson.marvel.marvelcharacters.feature.favorite.viewmodel.FavoritesViewModel
 
-class DetailsViewModelFactory(private val repository: FavoritesRepository) :
+class FavoritesViewModelFactory(private val repository: FavoritesRepository) :
     ViewModelProvider.NewInstanceFactory() {
 
     override fun <T : ViewModel?> create(modelClass: Class<T>): T =

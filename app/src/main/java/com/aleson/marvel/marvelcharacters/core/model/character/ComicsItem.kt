@@ -11,5 +11,6 @@ data class ComicsItem(
     @ColumnInfo(name = "resourceURI")
     val resourceURI: String? = null,
     @ColumnInfo(name = "name")
-    val name: String = ""
+    val name: String = "",
+    var image: Image ?= null
 ) : Parcelable

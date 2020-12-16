@@ -1,9 +1,11 @@
-package com.aleson.marvel.marvelcharacters.feature.detail
+package com.aleson.marvel.marvelcharacters.feature.detail.view
 
 import android.view.View
 import android.widget.ImageView
 import android.widget.TextView
 import androidx.constraintlayout.widget.ConstraintLayout
+import androidx.lifecycle.MutableLiveData
+import androidx.lifecycle.ViewModelProviders
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.aleson.marvel.marvelcharacters.R
@@ -13,6 +15,9 @@ import com.aleson.marvel.marvelcharacters.core.util.loadImageFromUrl
 import com.aleson.marvel.marvelcharacters.core.model.character.Character
 import com.aleson.marvel.marvelcharacters.core.model.character.Comics
 import com.aleson.marvel.marvelcharacters.core.model.character.ComicsItem
+import com.aleson.marvel.marvelcharacters.core.util.getIdfromURI
+import com.aleson.marvel.marvelcharacters.feature.detail.di.DetailsInjector
+import com.aleson.marvel.marvelcharacters.feature.detail.viewmodel.DetailsViewModel
 
 class DetailFragment : BaseFragment() {
 
@@ -22,6 +27,8 @@ class DetailFragment : BaseFragment() {
     private lateinit var descriptionContainer: ConstraintLayout
     private lateinit var comicsRecyclerView: RecyclerView
     private lateinit var seriesRecyclerView: RecyclerView
+    private var comics = MutableLiveData<List<ComicsItem>>()
+    private lateinit var viewModel: DetailsViewModel
 
     override fun getFragmentTag() = "CharactersDetailFragment"
 
@@ -52,14 +59,23 @@ class DetailFragment : BaseFragment() {
     private fun loadComics(comics: Comics) {
         comiscAdapter.clear()
 
-        comics.items?.map { item ->
-            comiscAdapter.add(item)
-        }
+        this.comics.value = comics.items
 
+        this.comics.value?.map { item ->
+            comiscAdapter.add(item)
+            viewModel.getComicsMedia(getIdfromURI(item.resourceURI)){
+                item.image = it
+                comiscAdapter.notifyDataSetChanged()
+            }
+        }
         comiscAdapter.notifyDataSetChanged()
     }
 
     override fun setupViewModel() {
+        viewModel = ViewModelProviders.of(
+            this,
+            DetailsInjector.provideDetailsViewModelFactory(activity?.applicationContext)
+        ).get(DetailsViewModel::class.java)
     }
 
     override fun onBackPressed() {
@@ -78,8 +94,11 @@ class DetailFragment : BaseFragment() {
         object : BaseRecyclerViewAdapter<ComicsItem>() {
 
             override fun getViewHolder(view: View, viewType: Int): RecyclerView.ViewHolder =
-                DetailsViewHolder(context, view)
+                DetailsViewHolder(
+                    context,
+                    view
+                )
 
-            override fun getLayoutId(position: Int, obj: ComicsItem) = R.layout.viewholder_details
+            override fun getLayoutId(position: Int, obj: ComicsItem) = R.layout.viewholder_comics
         }
 }
