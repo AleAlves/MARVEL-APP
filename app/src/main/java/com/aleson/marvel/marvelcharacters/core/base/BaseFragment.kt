@@ -31,10 +31,6 @@ abstract class BaseFragment : BaseDialogFragment() {
 
     abstract fun setupViewModel()
 
-    abstract fun onBackPressed(): Unit
-
-    abstract fun oberserverStates()
-
     abstract fun onClickListeners()
 
     abstract fun oberserverEvent()
@@ -50,7 +46,6 @@ abstract class BaseFragment : BaseDialogFragment() {
         return inflater.inflate(getFragmentLayout(), container, false)
     }
 
-
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         this.setupViewModel()
@@ -58,7 +53,6 @@ abstract class BaseFragment : BaseDialogFragment() {
         this.setupView()
         this.onClickListeners()
         this.oberserverEvent()
-        this.oberserverStates()
     }
 
 

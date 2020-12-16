@@ -1,13 +1,12 @@
 package com.aleson.marvel.marvelcharacters.feature.home
 
 import android.view.View
-import android.widget.ImageView
 import androidx.viewpager2.widget.ViewPager2
 import com.aleson.marvel.marvelcharacters.core.ui.ViewPagerFragmentAdapter
 import com.aleson.marvel.marvelcharacters.R
 import com.aleson.marvel.marvelcharacters.core.base.BaseFragment
-import com.aleson.marvel.marvelcharacters.feature.character.view.ui.CharactersFragment
-import com.aleson.marvel.marvelcharacters.feature.favorite.view.FavoritesFragment
+import com.aleson.marvel.marvelcharacters.feature.character.view.ui.fragment.CharactersFragment
+import com.aleson.marvel.marvelcharacters.feature.character.view.ui.fragment.FavoritesFragment
 import com.google.android.material.tabs.TabLayout
 import com.google.android.material.tabs.TabLayoutMediator
 
@@ -74,12 +73,6 @@ class HomeFragment : BaseFragment() {
     }
 
     override fun setupViewModel() {
-    }
-
-    override fun onBackPressed() {
-    }
-
-    override fun oberserverStates() {
     }
 
     override fun onClickListeners() {

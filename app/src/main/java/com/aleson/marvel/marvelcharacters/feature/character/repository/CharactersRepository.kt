@@ -30,4 +30,11 @@ class CharactersRepository(private val source: CharactersDataSource) : Character
     ) {
         source.getFavoriteStatus(request, onResponse, onError)
     }
+
+    override fun getFavorites(
+        onResponse: (GetFavoritesResponse) -> Unit,
+        onError: (ErrorModel) -> Unit
+    ) {
+        source.getFavorites(onResponse, onError)
+    }
 }

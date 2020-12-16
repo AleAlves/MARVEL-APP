@@ -11,6 +11,7 @@ class DetailsViewModelFactory(private val repository: DetailsRepository) :
 
     override fun <T : ViewModel?> create(modelClass: Class<T>): T = DetailsViewModel(
         DetailsUseCaseProvider.providGetComicsMediaUseCase(repository),
-        DetailsUseCaseProvider.providGetSeriesMediaUseCase(repository)
+        DetailsUseCaseProvider.providGetSeriesMediaUseCase(repository),
+        DetailsUseCaseProvider.providUpdateFavoriteUseCase(repository)
     ) as T
 }

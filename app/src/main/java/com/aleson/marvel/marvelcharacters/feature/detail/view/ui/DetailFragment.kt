@@ -1,12 +1,11 @@
 package com.aleson.marvel.marvelcharacters.feature.detail.view.ui
 
-import android.view.Menu
-import android.view.MenuInflater
 import android.view.View
 import android.widget.ImageView
 import android.widget.TextView
 import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.lifecycle.MutableLiveData
+import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
@@ -20,6 +19,7 @@ import com.aleson.marvel.marvelcharacters.core.ui.BaseRecyclerViewAdapter
 import com.aleson.marvel.marvelcharacters.core.util.getIdfromURI
 import com.aleson.marvel.marvelcharacters.core.util.loadImageFromUrl
 import com.aleson.marvel.marvelcharacters.feature.detail.di.DetailsInjector
+import com.aleson.marvel.marvelcharacters.feature.detail.view.event.DetailsViewEvent
 import com.aleson.marvel.marvelcharacters.feature.detail.view.ui.viewholder.DetailsViewHolder
 import com.aleson.marvel.marvelcharacters.feature.detail.viewmodel.DetailsViewModel
 
@@ -69,6 +69,7 @@ class DetailFragment : BaseFragment() {
         if (character?.description.isNullOrEmpty()) descriptionContainer.visibility = View.GONE
         character?.comics?.let { loadComics(it) }
         character?.series?.let { loadSeries(it) }
+        onSetFavoriteIconStatus(character?.favorite)
     }
 
     private fun loadComics(comics: Comics) {
@@ -108,19 +109,28 @@ class DetailFragment : BaseFragment() {
         ).get(DetailsViewModel::class.java)
     }
 
-    override fun onBackPressed() {
-    }
-
-    override fun oberserverStates() {
+    private fun onSetFavoriteIconStatus(operation: Boolean?) {
+        if (character?.favorite as Boolean){
+            toolbarButton.setImageDrawable(context?.getDrawable(R.drawable.ic_baseline_favorite_24))
+        }
+        else{
+            toolbarButton.setImageDrawable(context?.getDrawable(R.drawable.ic_baseline_favorite_border_24))
+        }
     }
 
     override fun onClickListeners() {
         toolbarButton.setOnClickListener {
-            print("")
+            character?.let { data -> viewModel.deleteFavorite(data) }
         }
     }
 
     override fun oberserverEvent() {
+        this.viewModel.events.observe(this, Observer {
+            when (it) {
+                is DetailsViewEvent.OnFavoriteDeleted -> onSetFavoriteIconStatus(it.operation)
+                is DetailsViewEvent.OnError -> super.showToast(context, it.toString())
+            }
+        })
     }
 
     private var comiscAdapter: BaseRecyclerViewAdapter<Resource> =

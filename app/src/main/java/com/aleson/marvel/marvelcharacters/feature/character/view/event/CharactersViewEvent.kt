@@ -9,6 +9,8 @@ sealed class CharactersViewEvent {
 
     data class OnFavoriteSaved(val character : Character) : CharactersViewEvent()
 
+    data class OnLoadFavorites(val characters: List<Character>?) : CharactersViewEvent()
+
     data class OnFavoriteStatusLoaded(val id : Int, val status : Boolean) : CharactersViewEvent()
 
     data class OnError(val error: String?) : CharactersViewEvent()

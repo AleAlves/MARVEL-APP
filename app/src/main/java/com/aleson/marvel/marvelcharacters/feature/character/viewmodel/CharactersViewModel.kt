@@ -2,26 +2,23 @@ package com.aleson.marvel.marvelcharacters.feature.character.viewmodel
 
 import com.aleson.marvel.marvelcharacters.core.base.BaseViewModel
 import com.aleson.marvel.marvelcharacters.core.model.character.Character
-import com.aleson.marvel.marvelcharacters.core.model.character.Image
 import com.aleson.marvel.marvelcharacters.feature.character.usecase.*
 import com.aleson.marvel.marvelcharacters.feature.character.view.event.CharactersViewEvent
-import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.launch
 
 class CharactersViewModel(
     private val getCharactersUseCase: GetCharactersUseCase,
-    private val saveFavoriteUseCase: UpdateFavoriteUseCase,
-    private val getFavoriteResponse: GetFavoriteUseCase
+    private val updateFavoriteUseCase: UpdateFavoriteUseCase,
+    private val getFavoriteUseCase: GetFavoriteUseCase,
+    private val getFavoritesUseCase: GetFavoritesUseCase
 ) :
 
     BaseViewModel<CharactersViewEvent>() {
 
     override fun setup() {
-        getCharacters()
     }
 
-    private fun getCharacters() {
-        CoroutineScope(coroutineContext).launch {
+    fun getCharacters() {
+        async {
             getCharactersUseCase.request = GetCharactersRequest(limite = "20", orderBy = "name")
             getCharactersUseCase.execute({ response ->
                 super.events.value = CharactersViewEvent.OnLoadCharacters(response?.characters)
@@ -33,8 +30,8 @@ class CharactersViewModel(
 
     fun getFavoriteStatus(id: Int, onResponse: (Boolean?) -> Unit) {
         async {
-            getFavoriteResponse.request = GetFavoriteRequest(id)
-            getFavoriteResponse.execute({ response ->
+            getFavoriteUseCase.request = GetFavoriteRequest(id)
+            getFavoriteUseCase.execute({ response ->
                 onResponse(response?.isFavorite)
             }, {
                 onError(it?.message)
@@ -44,13 +41,23 @@ class CharactersViewModel(
 
     fun updateFavorite(character: Character) {
         async {
-            saveFavoriteUseCase.request = UpdateFavoriteRequest(character)
-            saveFavoriteUseCase.execute({ response ->
+            updateFavoriteUseCase.request = UpdateFavoriteRequest(character)
+            updateFavoriteUseCase.execute({ response ->
                 super.events.value = response?.character?.let { character ->
                     CharactersViewEvent.OnFavoriteSaved(character)
                 }
             }, {
                 onError(it?.message)
+            })
+        }
+    }
+
+    fun getFavorites() {
+        async {
+            getFavoritesUseCase.execute({ response ->
+                super.events.value = CharactersViewEvent.OnLoadFavorites(response?.characters)
+            }, { error ->
+                onError(error?.message)
             })
         }
     }

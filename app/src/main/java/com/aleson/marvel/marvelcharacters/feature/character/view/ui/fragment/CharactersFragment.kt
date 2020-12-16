@@ -1,4 +1,4 @@
-package com.aleson.marvel.marvelcharacters.feature.character.view.ui
+package com.aleson.marvel.marvelcharacters.feature.character.view.ui.fragment
 
 import android.view.View
 import androidx.core.os.bundleOf
@@ -38,19 +38,12 @@ class CharactersFragment : BaseFragment() {
     }
 
     override fun setupViewModel() {
+        super.showLoading()
         this.viewModel = ViewModelProviders.of(
             this,
             CharactersInjector.provideCharactersViewModelFactory(activity?.applicationContext)
         ).get(CharactersViewModel::class.java)
-
-        super.showLoading()
-        this.viewModel.setup()
-    }
-
-    override fun onBackPressed() {
-    }
-
-    override fun oberserverStates() {
+        viewModel.getCharacters()
     }
 
     override fun onClickListeners() {

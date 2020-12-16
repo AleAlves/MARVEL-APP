@@ -5,6 +5,7 @@
     <color name="colorPrimaryDark">#7f0000</color>
     <color name="background">#f1f1f1</color>
     <color name="surface">#e0e0e0</color>
+    <color name="icon_light">#e0e0e0</color>
     <color name="colorAccent">#f9a825</color>
     <color name="grey">#ff6f00</color>
     <color name="grey_dark">#D62020</color>
@@ -12,6 +13,7 @@
     <color name="cardColor">#DD1919</color>
     <color name="font_light">#FFFFFF</color>
     <color name="font_dark">#000000</color>
+    <color name="black">#000000</color>
     <color name="transparent">#00FFFFFF</color>
 
 </resources>

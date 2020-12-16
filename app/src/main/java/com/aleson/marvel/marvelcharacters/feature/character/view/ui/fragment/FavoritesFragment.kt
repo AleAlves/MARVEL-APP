@@ -1,4 +1,4 @@
-package com.aleson.marvel.marvelcharacters.feature.favorite.view
+package com.aleson.marvel.marvelcharacters.feature.character.view.ui.fragment
 
 import android.view.View
 import androidx.core.os.bundleOf
@@ -11,13 +11,14 @@ import com.aleson.marvel.marvelcharacters.R
 import com.aleson.marvel.marvelcharacters.core.base.BaseFragment
 import com.aleson.marvel.marvelcharacters.core.ui.BaseRecyclerViewAdapter
 import com.aleson.marvel.marvelcharacters.core.model.character.Character
+import com.aleson.marvel.marvelcharacters.feature.character.di.CharactersInjector
+import com.aleson.marvel.marvelcharacters.feature.character.view.event.CharactersViewEvent
 import com.aleson.marvel.marvelcharacters.feature.character.view.ui.viewholder.CharacterViewHolder
-import com.aleson.marvel.marvelcharacters.feature.favorite.di.DetailsInjector
-import com.aleson.marvel.marvelcharacters.feature.favorite.viewmodel.FavoritesViewModel
+import com.aleson.marvel.marvelcharacters.feature.character.viewmodel.CharactersViewModel
 
 class FavoritesFragment : BaseFragment() {
 
-    private lateinit var viewModel: FavoritesViewModel
+    private lateinit var viewModel: CharactersViewModel
 
     private lateinit var recyclerView: RecyclerView
 
@@ -40,16 +41,10 @@ class FavoritesFragment : BaseFragment() {
 
         viewModel = ViewModelProviders.of(
             this,
-            DetailsInjector.provideDetailsInjectorViewModelFactory(activity?.applicationContext)
-        ).get(FavoritesViewModel::class.java)
+            CharactersInjector.provideCharactersViewModelFactory(activity?.applicationContext)
+        ).get(CharactersViewModel::class.java)
 
-        viewModel.setup()
-    }
-
-    override fun onBackPressed() {
-    }
-
-    override fun oberserverStates() {
+        viewModel.getFavorites()
     }
 
     override fun onClickListeners() {
@@ -58,8 +53,8 @@ class FavoritesFragment : BaseFragment() {
     override fun oberserverEvent() {
         this.viewModel.events.observe(this, Observer {
             when (it) {
-                is FavoritesViewEvent.OnLoadFavorites -> loadFavorites(it.characters)
-                is FavoritesViewEvent.OnError -> super.showToast(context, it.toString())
+                is CharactersViewEvent.OnLoadFavorites -> loadFavorites(it.characters)
+                is CharactersViewEvent.OnError -> super.showToast(context, it.toString())
             }
         })
     }

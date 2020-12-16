@@ -7,14 +7,14 @@ import com.aleson.marvel.marvelcharacters.core.model.comics.ComicsDataWrapper
 import com.aleson.marvel.marvelcharacters.core.model.series.SeriesDataWrapper
 import com.aleson.marvel.marvelcharacters.core.util.generateHash
 import com.aleson.marvel.marvelcharacters.feature.character.di.PUBLIC_KEY
+import com.aleson.marvel.marvelcharacters.feature.character.usecase.UpdateFavoriteRequest
+import com.aleson.marvel.marvelcharacters.feature.character.usecase.UpdateFavoriteResponse
 import com.aleson.marvel.marvelcharacters.feature.detail.repository.api.GetMediaApi
-import com.aleson.marvel.marvelcharacters.feature.detail.usecase.GetComicsMediaRequest
-import com.aleson.marvel.marvelcharacters.feature.detail.usecase.GetComicsMediaResponse
-import com.aleson.marvel.marvelcharacters.feature.detail.usecase.GetSeriesMediaRequest
-import com.aleson.marvel.marvelcharacters.feature.detail.usecase.GetSeriesMediaResponse
+import com.aleson.marvel.marvelcharacters.feature.detail.usecase.*
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
+import java.lang.Exception
 
 class DetailsDataSourceImpl(var database: AppDatabase?) :
     DetailsDataSource {
@@ -90,6 +90,29 @@ class DetailsDataSourceImpl(var database: AppDatabase?) :
                 PUBLIC_KEY,
                 generateHash(timeStamp)
             ).enqueue(call)
+    }
+
+    override fun updateFavorite(
+        request: UpdateFavoriteRequest,
+        onResponse: (UpdateFavoriteResponse) -> Unit,
+        onError: (ErrorModel) -> Unit
+    ) {
+        try {
+            val previous = database?.favorites()?.getByName(request.character.name)
+
+            if (previous == null) {
+                request.character.favorite = true
+                database?.favorites()?.insert(request.character)
+                onResponse(UpdateFavoriteResponse(request.character))
+            } else {
+                request.character.favorite = false
+                database?.favorites()?.delete(request.character)
+                onResponse(UpdateFavoriteResponse(request.character))
+            }
+
+        } catch (e: Exception) {
+            onError(ErrorModel(e.toString()))
+        }
     }
 
 }

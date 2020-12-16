@@ -10,5 +10,6 @@ class DetailsUseCaseProvider {
     companion object {
         fun providGetComicsMediaUseCase(repository: DetailsRepository) = GetComicsMediaUseCase(repository)
         fun providGetSeriesMediaUseCase(repository: DetailsRepository) = GetSeriesMediaUseCase(repository)
+        fun providUpdateFavoriteUseCase(repository: DetailsRepository) = UpdateFavoriteUseCase(repository)
     }
 }

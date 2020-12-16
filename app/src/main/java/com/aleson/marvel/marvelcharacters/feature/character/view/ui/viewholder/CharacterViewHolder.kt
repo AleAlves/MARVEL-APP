@@ -40,7 +40,7 @@ class CharacterViewHolder(
             button.setImageDrawable((context as Context).getDrawable(R.drawable.ic_baseline_favorite_24_red))
         }
         else {
-            button.setImageDrawable((context as Context).getDrawable(R.drawable.ic_baseline_favorite_24))
+            button.setImageDrawable((context as Context).getDrawable(R.drawable.ic_baseline_favorite_border_24_black))
         }
     }
 }

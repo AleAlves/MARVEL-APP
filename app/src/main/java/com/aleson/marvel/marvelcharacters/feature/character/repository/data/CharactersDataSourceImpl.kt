@@ -5,7 +5,6 @@ import com.aleson.marvel.marvelcharacters.core.model.character.CharacterDataWrap
 import com.aleson.marvel.marvelcharacters.core.ErrorModel
 import com.aleson.marvel.marvelcharacters.core.util.generateHash
 import com.aleson.marvel.marvelcharacters.feature.character.di.*
-import com.aleson.marvel.marvelcharacters.core.model.character.Character
 import com.aleson.marvel.marvelcharacters.feature.character.repository.api.GetCharactersApi
 import com.aleson.marvel.marvelcharacters.core.dao.AppDatabase
 import com.aleson.marvel.marvelcharacters.feature.character.usecase.*
@@ -89,4 +88,13 @@ class CharactersDataSourceImpl(var database: AppDatabase?) : CharactersDataSourc
             onError(ErrorModel(e.toString()))
         }
     }
+
+    override fun getFavorites(
+        onResponse: (GetFavoritesResponse) -> Unit,
+        onError: (ErrorModel) -> Unit
+    ) {
+        val characters = database?.favorites()?.getAll()
+        characters?.let { GetFavoritesResponse(it) }?.let { onResponse(it) }
+    }
+
 }

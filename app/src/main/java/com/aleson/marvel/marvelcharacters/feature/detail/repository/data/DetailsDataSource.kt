@@ -1,12 +1,10 @@
 package com.aleson.marvel.marvelcharacters.feature.detail.repository.data
 
 import com.aleson.marvel.marvelcharacters.core.ErrorModel
-import com.aleson.marvel.marvelcharacters.feature.detail.usecase.GetComicsMediaRequest
-import com.aleson.marvel.marvelcharacters.feature.detail.usecase.GetComicsMediaResponse
-import com.aleson.marvel.marvelcharacters.feature.detail.usecase.GetSeriesMediaRequest
-import com.aleson.marvel.marvelcharacters.feature.detail.usecase.GetSeriesMediaResponse
+import com.aleson.marvel.marvelcharacters.feature.character.repository.data.UpdateDataSource
+import com.aleson.marvel.marvelcharacters.feature.detail.usecase.*
 
-interface DetailsDataSource {
+interface DetailsDataSource : UpdateDataSource{
 
     fun getComicsMedia(
         request: GetComicsMediaRequest,
