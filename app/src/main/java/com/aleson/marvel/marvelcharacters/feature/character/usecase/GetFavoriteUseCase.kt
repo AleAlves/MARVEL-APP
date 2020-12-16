@@ -8,18 +8,19 @@ import com.aleson.marvel.marvelcharacters.core.model.character.Character
 import com.aleson.marvel.marvelcharacters.feature.character.repository.CharactersRepository
 
 
-class UpdateFavoriteRequest(var character: Character) : UseCaseRequest
+class GetFavoriteRequest(var id: Int) : UseCaseRequest
 
-class UpdateFavoriteResponse(var character: Character) : UseCaseResponse
+class GetFavoriteResponse(var isFavorite: Boolean?) : UseCaseResponse
 
-class UpdateFavoriteUseCase(private val repository: CharactersRepository) :
-    BaseUseCase<UpdateFavoriteRequest, UpdateFavoriteResponse>() {
+class GetFavoriteUseCase(private val repository: CharactersRepository) :
+    BaseUseCase<GetFavoriteRequest, GetFavoriteResponse>() {
+
 
     override fun execute(
-        onResponse: (UpdateFavoriteResponse?) -> Unit,
+        onResponse: (GetFavoriteResponse?) -> Unit,
         onError: (ErrorModel?) -> Unit
     ) {
-        repository.updateFavorite(
+        repository.getFavoriteStatus(
             super.request,
             { onResponse(it) },
             { onError })

@@ -1,23 +1,54 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.appcompat.widget.Toolbar xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/toolbar"
+    style="@style/toolbar"
     android:layout_width="match_parent"
     android:layout_height="@dimen/size_60dp"
-    app:title=""
-    style="@style/toolbar"
     android:background="@drawable/toolbar_background"
     android:elevation="@dimen/size_4dp"
-    android:padding="@dimen/size_8dp">
+    android:padding="@dimen/size_8dp"
+    app:title="">
 
-    <ImageView
-        android:id="@+id/toolbar_image_button"
-        android:layout_width="@dimen/size_30dp"
-        android:layout_height="@dimen/size_30dp"
-        android:background="@null"
-        android:scaleType="fitXY"
-        android:src="@drawable/ic_baseline_local_movies_24"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
 
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:foregroundGravity="right"
+        android:layout_height="wrap_content">
+
+        <TextView
+            style="@style/textLightBold12"
+            android:id="@+id/toolbar_title"
+            tools:text="Title"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toStartOf="parent"/>
+
+        <ImageView
+            android:id="@+id/toolbar_image_icon"
+            android:layout_width="@dimen/size_30dp"
+            android:layout_height="@dimen/size_30dp"
+            android:background="@null"
+            android:scaleType="fitXY"
+            android:src="@drawable/ic_baseline_local_movies_24"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintBottom_toBottomOf="parent"/>
+
+        <ImageButton
+            android:id="@+id/toolbar_imagebutton_delete"
+            android:layout_width="@dimen/size_30dp"
+            android:layout_height="@dimen/size_30dp"
+            android:background="@null"
+            android:scaleType="fitXY"
+            tools:visibility="visible"
+            android:visibility="gone"
+            android:foreground="?android:attr/selectableItemBackground"
+            android:src="@drawable/ic_baseline_delete_24"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintBottom_toBottomOf="parent"/>
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
 </androidx.appcompat.widget.Toolbar>

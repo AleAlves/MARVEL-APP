@@ -36,5 +36,11 @@ class CharacterViewHolder(
             it.isEnabled = false
             onFavorite(data)
         }
+        if (data.favorite) {
+            button.setImageDrawable((context as Context).getDrawable(R.drawable.ic_baseline_favorite_24_red))
+        }
+        else {
+            button.setImageDrawable((context as Context).getDrawable(R.drawable.ic_baseline_favorite_24))
+        }
     }
 }

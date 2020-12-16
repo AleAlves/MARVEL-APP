@@ -2,6 +2,7 @@ package com.aleson.marvel.marvelcharacters.feature.character.view.ui
 
 import android.view.View
 import androidx.core.os.bundleOf
+import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 import androidx.navigation.fragment.NavHostFragment
@@ -20,8 +21,8 @@ import com.aleson.marvel.marvelcharacters.feature.character.viewmodel.Characters
 class CharactersFragment : BaseFragment() {
 
     private lateinit var viewModel: CharactersViewModel
-
     private lateinit var recyclerView: RecyclerView
+    private var characters = MutableLiveData<List<Character>>()
 
     override fun getFragmentTag() = "CharactersFragment"
 
@@ -59,24 +60,47 @@ class CharactersFragment : BaseFragment() {
         this.viewModel.events.observe(this, Observer {
             when (it) {
                 is CharactersViewEvent.OnLoadCharacters -> loadCharacters(it.characters)
+                is CharactersViewEvent.OnFavoriteSaved -> updateFavoriteItem(it.character)
                 is CharactersViewEvent.OnError -> super.showToast(context, it.toString())
             }
         })
     }
 
-    private fun loadCharacters(characters: CharacterDataWrapper?) {
+    private fun loadCharacters(charactersData: CharacterDataWrapper?) {
+        charactersData?.data.let {
+            characters.value = it?.results
+        }
+        loadAdapter()
+    }
+
+    private fun loadAdapter() {
         super.hideLoading()
         adapter.clear()
-        characters?.data.let {
-            it?.results?.map { character ->
-                adapter.add(character)
-            }
+        this.characters.value?.map { character ->
+            adapter.add(character)
         }
+        adapter.notifyDataSetChanged()
+        onLoadFavorites()
+    }
+
+    private fun updateFavoriteItem(character: Character) {
+        val index = adapter.listItems.indexOf(character)
+        adapter.listItems.remove(character)
+        adapter.listItems.add(index, character)
         adapter.notifyDataSetChanged()
     }
 
+    private fun onLoadFavorites() {
+        characters.value?.map { character ->
+            viewModel.getFavoriteStatus(character.id) { isFavorite ->
+                character.favorite = isFavorite as Boolean
+                adapter.notifyDataSetChanged()
+            }
+        }
+    }
+
     private fun saveFavorite(character: Character) {
-        viewModel.saveFavorite(character)
+        viewModel.updateFavorite(character)
     }
 
     fun setNavigationController(character: Character) {

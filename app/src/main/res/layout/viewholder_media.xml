@@ -24,7 +24,7 @@
 
     <ImageView
         android:id="@+id/character_details_imageview_image"
-        android:layout_width="@dimen/size_100dp"
+        android:layout_width="@dimen/size_124dp"
         android:layout_height="@dimen/size_150dp"
         android:layout_marginBottom="@dimen/size_16dp"
         android:scaleType="fitXY"

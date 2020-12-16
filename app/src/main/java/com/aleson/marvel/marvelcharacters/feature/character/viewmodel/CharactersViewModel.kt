@@ -2,17 +2,16 @@ package com.aleson.marvel.marvelcharacters.feature.character.viewmodel
 
 import com.aleson.marvel.marvelcharacters.core.base.BaseViewModel
 import com.aleson.marvel.marvelcharacters.core.model.character.Character
-import com.aleson.marvel.marvelcharacters.feature.character.usecase.GetCharactersRequest
-import com.aleson.marvel.marvelcharacters.feature.character.usecase.GetCharactersUseCase
-import com.aleson.marvel.marvelcharacters.feature.character.usecase.SaveFavoriteRequest
-import com.aleson.marvel.marvelcharacters.feature.character.usecase.SaveFavoriteUseCase
+import com.aleson.marvel.marvelcharacters.core.model.character.Image
+import com.aleson.marvel.marvelcharacters.feature.character.usecase.*
 import com.aleson.marvel.marvelcharacters.feature.character.view.event.CharactersViewEvent
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.launch
 
 class CharactersViewModel(
     private val getCharactersUseCase: GetCharactersUseCase,
-    private val saveFavoriteUseCase: SaveFavoriteUseCase
+    private val saveFavoriteUseCase: UpdateFavoriteUseCase,
+    private val getFavoriteResponse: GetFavoriteUseCase
 ) :
 
     BaseViewModel<CharactersViewEvent>() {
@@ -32,11 +31,24 @@ class CharactersViewModel(
         }
     }
 
-    fun saveFavorite(character: Character) {
+    fun getFavoriteStatus(id: Int, onResponse: (Boolean?) -> Unit) {
         async {
-            saveFavoriteUseCase.request = SaveFavoriteRequest(character)
-            saveFavoriteUseCase.execute({
-                print("")
+            getFavoriteResponse.request = GetFavoriteRequest(id)
+            getFavoriteResponse.execute({ response ->
+                onResponse(response?.isFavorite)
+            }, {
+                onError(it?.message)
+            })
+        }
+    }
+
+    fun updateFavorite(character: Character) {
+        async {
+            saveFavoriteUseCase.request = UpdateFavoriteRequest(character)
+            saveFavoriteUseCase.execute({ response ->
+                super.events.value = response?.character?.let { character ->
+                    CharactersViewEvent.OnFavoriteSaved(character)
+                }
             }, {
                 onError(it?.message)
             })

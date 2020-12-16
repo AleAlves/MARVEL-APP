@@ -25,7 +25,7 @@ class HomeFragment : BaseFragment() {
         tabLayout = view.findViewById(R.id.tab_layout)
         viewPager = view.findViewById(R.id.home_viewpager)
         toolbar = view.findViewById(R.id.toolbar)
-        toolbarIcon = view.findViewById(R.id.toolbar_image_button)
+        toolbarIcon = view.findViewById(R.id.toolbar_image_icon)
     }
 
     override fun setupView() {

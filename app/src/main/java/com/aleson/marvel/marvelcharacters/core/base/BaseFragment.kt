@@ -6,7 +6,9 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.ImageButton
 import android.widget.ImageView
+import android.widget.TextView
 import android.widget.Toast
 import androidx.appcompat.widget.Toolbar
 import com.aleson.marvel.marvelcharacters.R
@@ -14,6 +16,8 @@ import com.aleson.marvel.marvelcharacters.R
 abstract class BaseFragment : BaseDialogFragment() {
 
     lateinit var toolbarIcon: ImageView
+    lateinit var toolbarButton: ImageButton
+    lateinit var toolBarTitle: TextView
     lateinit var toolbar: Toolbar
     private var dialog : Dialog? =  null
 
@@ -26,7 +30,6 @@ abstract class BaseFragment : BaseDialogFragment() {
     abstract fun setupView()
 
     abstract fun setupViewModel()
-
 
     abstract fun onBackPressed(): Unit
 

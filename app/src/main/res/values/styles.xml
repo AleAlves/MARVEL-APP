@@ -15,6 +15,12 @@
         <item name="textAllCaps">false</item>
     </style>
 
+    <style name="toolbarTitle">
+        <item name="android:textSize">12sp</item>
+        <item name="titleTextColor">@color/font_light</item>
+        <item name="textAllCaps">false</item>
+    </style>
+
     <style name="CardTheme">
         <item name="android:background">@color/colorPrimaryDark</item>
         <item name="android:foreground">?android:attr/selectableItemBackground</item>
@@ -57,6 +63,13 @@
 
     <style name="textBold12">
         <item name="android:textColor">@color/font_dark</item>
+        <item name="android:textSize">@dimen/font_16sp</item>
+        <item name="android:textStyle">bold</item>
+    </style>
+
+
+    <style name="textLightBold12">
+        <item name="android:textColor">@color/font_light</item>
         <item name="android:textSize">@dimen/font_16sp</item>
         <item name="android:textStyle">bold</item>
     </style>

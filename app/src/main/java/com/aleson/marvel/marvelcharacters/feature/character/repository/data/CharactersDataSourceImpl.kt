@@ -7,9 +7,8 @@ import com.aleson.marvel.marvelcharacters.core.util.generateHash
 import com.aleson.marvel.marvelcharacters.feature.character.di.*
 import com.aleson.marvel.marvelcharacters.core.model.character.Character
 import com.aleson.marvel.marvelcharacters.feature.character.repository.api.GetCharactersApi
-import com.aleson.marvel.marvelcharacters.feature.character.usecase.GetCharactersRequest
-import com.aleson.marvel.marvelcharacters.feature.character.usecase.SaveFavoriteRequest
 import com.aleson.marvel.marvelcharacters.core.dao.AppDatabase
+import com.aleson.marvel.marvelcharacters.feature.character.usecase.*
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
@@ -55,15 +54,37 @@ class CharactersDataSourceImpl(var database: AppDatabase?) : CharactersDataSourc
             ).enqueue(call)
     }
 
-    override fun saveFavorite(
-        request: SaveFavoriteRequest,
-        onResponse: (Character) -> Unit,
+    override fun updateFavorite(
+        request: UpdateFavoriteRequest,
+        onResponse: (UpdateFavoriteResponse) -> Unit,
         onError: (ErrorModel) -> Unit
     ) {
         try {
-            database?.favorites()?.insert(request.character)
-            val result = database?.favorites()?.get(request.character.id)
-            result?.let { onResponse(it) }
+            val previous = database?.favorites()?.getByName(request.character.name)
+
+            if (previous == null) {
+                request.character.favorite = true
+                database?.favorites()?.insert(request.character)
+                onResponse(UpdateFavoriteResponse(request.character))
+            } else {
+                request.character.favorite = false
+                database?.favorites()?.delete(request.character)
+                onResponse(UpdateFavoriteResponse(request.character))
+            }
+
+        } catch (e: Exception) {
+            onError(ErrorModel(e.toString()))
+        }
+    }
+
+    override fun getFavoriteStatus(
+        request: GetFavoriteRequest,
+        onResponse: (GetFavoriteResponse) -> Unit,
+        onError: (ErrorModel) -> Unit
+    ) {
+        try {
+            val previous = database?.favorites()?.isFavorite(request.id)
+            onResponse(GetFavoriteResponse(previous))
         } catch (e: Exception) {
             onError(ErrorModel(e.toString()))
         }

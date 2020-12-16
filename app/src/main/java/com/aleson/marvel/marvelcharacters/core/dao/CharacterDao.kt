@@ -12,6 +12,12 @@ interface CharacterDao {
     @Query("SELECT * FROM character WHERE :id")
     fun get(id: Int): Character
 
+    @Query("SELECT * FROM character WHERE name = :name")
+    fun getByName(name: String): Character
+
+    @Query("SELECT favorite FROM character WHERE id = :id")
+    fun isFavorite(id: Int): Boolean
+
     @Query("SELECT * FROM character")
     fun getAll(): List<Character>
 

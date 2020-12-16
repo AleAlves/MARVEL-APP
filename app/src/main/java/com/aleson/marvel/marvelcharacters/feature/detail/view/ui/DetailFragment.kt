@@ -1,5 +1,7 @@
 package com.aleson.marvel.marvelcharacters.feature.detail.view.ui
 
+import android.view.Menu
+import android.view.MenuInflater
 import android.view.View
 import android.widget.ImageView
 import android.widget.TextView
@@ -10,16 +12,17 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.aleson.marvel.marvelcharacters.R
 import com.aleson.marvel.marvelcharacters.core.base.BaseFragment
-import com.aleson.marvel.marvelcharacters.core.ui.BaseRecyclerViewAdapter
-import com.aleson.marvel.marvelcharacters.core.util.loadImageFromUrl
 import com.aleson.marvel.marvelcharacters.core.model.character.Character
 import com.aleson.marvel.marvelcharacters.core.model.character.Comics
 import com.aleson.marvel.marvelcharacters.core.model.character.Resource
 import com.aleson.marvel.marvelcharacters.core.model.character.Series
+import com.aleson.marvel.marvelcharacters.core.ui.BaseRecyclerViewAdapter
 import com.aleson.marvel.marvelcharacters.core.util.getIdfromURI
+import com.aleson.marvel.marvelcharacters.core.util.loadImageFromUrl
 import com.aleson.marvel.marvelcharacters.feature.detail.di.DetailsInjector
 import com.aleson.marvel.marvelcharacters.feature.detail.view.ui.viewholder.DetailsViewHolder
 import com.aleson.marvel.marvelcharacters.feature.detail.viewmodel.DetailsViewModel
+
 
 class DetailFragment : BaseFragment() {
 
@@ -42,7 +45,9 @@ class DetailFragment : BaseFragment() {
         description = view.findViewById(R.id.character_details_textview_description)
         descriptionContainer = view.findViewById(R.id.character_details_contraintlayout)
         toolbar = view.findViewById(R.id.toolbar)
-        toolbarIcon = view.findViewById(R.id.toolbar_image_button)
+        toolBarTitle = view.findViewById(R.id.toolbar_title)
+        toolbarIcon = view.findViewById(R.id.toolbar_image_icon)
+        toolbarButton = view.findViewById(R.id.toolbar_imagebutton_delete)
         comicsRecyclerView = view.findViewById(R.id.comics_recyclerview)
         comicsRecyclerView.layoutManager =
             LinearLayoutManager(context, LinearLayoutManager.HORIZONTAL, false)
@@ -58,8 +63,9 @@ class DetailFragment : BaseFragment() {
         character = arguments?.getParcelable("character")
         context?.let { loadImageFromUrl(it, character?.thumbnail, image, R.drawable.placeholder) }
         description.text = character?.description
-        toolbar.title = character?.name
+        toolBarTitle.text = character?.name
         toolbarIcon.visibility = View.GONE
+        toolbarButton.visibility = View.VISIBLE
         if (character?.description.isNullOrEmpty()) descriptionContainer.visibility = View.GONE
         character?.comics?.let { loadComics(it) }
         character?.series?.let { loadSeries(it) }
@@ -109,6 +115,9 @@ class DetailFragment : BaseFragment() {
     }
 
     override fun onClickListeners() {
+        toolbarButton.setOnClickListener {
+            print("")
+        }
     }
 
     override fun oberserverEvent() {

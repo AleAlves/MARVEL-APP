@@ -2,10 +2,8 @@ package com.aleson.marvel.marvelcharacters.feature.character.repository
 
 import com.aleson.marvel.marvelcharacters.core.model.character.CharacterDataWrapper
 import com.aleson.marvel.marvelcharacters.core.ErrorModel
-import com.aleson.marvel.marvelcharacters.core.model.character.Character
 import com.aleson.marvel.marvelcharacters.feature.character.repository.data.CharactersDataSource
-import com.aleson.marvel.marvelcharacters.feature.character.usecase.GetCharactersRequest
-import com.aleson.marvel.marvelcharacters.feature.character.usecase.SaveFavoriteRequest
+import com.aleson.marvel.marvelcharacters.feature.character.usecase.*
 
 class CharactersRepository(private val source: CharactersDataSource) : CharactersDataSource {
 
@@ -17,11 +15,19 @@ class CharactersRepository(private val source: CharactersDataSource) : Character
         source.getCharacters(request, onResponse, onError)
     }
 
-    override fun saveFavorite(
-        request: SaveFavoriteRequest,
-        onResponse: (Character) -> Unit,
+    override fun updateFavorite(
+        request: UpdateFavoriteRequest,
+        onResponse: (UpdateFavoriteResponse) -> Unit,
         onError: (ErrorModel) -> Unit
     ) {
-        source.saveFavorite(request, onResponse, onError)
+        source.updateFavorite(request, onResponse, onError)
+    }
+
+    override fun getFavoriteStatus(
+        request: GetFavoriteRequest,
+        onResponse: (GetFavoriteResponse) -> Unit,
+        onError: (ErrorModel) -> Unit
+    ) {
+        source.getFavoriteStatus(request, onResponse, onError)
     }
 }

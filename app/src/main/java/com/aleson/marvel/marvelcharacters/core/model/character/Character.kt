@@ -18,5 +18,7 @@ data class Character(
     @ColumnInfo(name = "comics")
     val comics: Comics? = null,
     @ColumnInfo(name = "series")
-    val series: Series? = null
+    val series: Series? = null,
+    @ColumnInfo(name = "favorite")
+    var favorite: Boolean = false
 ) : Parcelable

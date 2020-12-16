@@ -10,6 +10,7 @@ class CharactersViewModelFactory(private val repository: CharactersRepository) :
 
     override fun <T : ViewModel?> create(modelClass: Class<T>): T = CharactersViewModel(
         CharactersUseCaseProvider.provideGetCharactersUseCase(repository),
-        CharactersUseCaseProvider.provideSaveFavoriteUseCase(repository)
+        CharactersUseCaseProvider.provideSaveFavoriteUseCase(repository),
+        CharactersUseCaseProvider.provideGetFavoriteUseCase(repository)
     ) as T
 }
