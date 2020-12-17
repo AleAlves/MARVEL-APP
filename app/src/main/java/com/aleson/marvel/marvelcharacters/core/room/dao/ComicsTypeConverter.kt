@@ -1,4 +1,4 @@
-package com.aleson.marvel.marvelcharacters.core.dao
+package com.aleson.marvel.marvelcharacters.core.room.dao
 
 import androidx.room.TypeConverter
 import com.aleson.marvel.marvelcharacters.core.model.character.Comics

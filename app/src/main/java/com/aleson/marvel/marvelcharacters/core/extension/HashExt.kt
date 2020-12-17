@@ -1,4 +1,4 @@
-package com.aleson.marvel.marvelcharacters.core.util
+package com.aleson.marvel.marvelcharacters.core.extension
 
 import com.aleson.marvel.marvelcharacters.feature.character.di.PRIVATE_KEY
 import com.aleson.marvel.marvelcharacters.feature.character.di.PUBLIC_KEY

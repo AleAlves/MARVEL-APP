@@ -8,7 +8,7 @@
     <color name="icon_light">#e0e0e0</color>
     <color name="colorAccent">#f9a825</color>
     <color name="grey">#ff6f00</color>
-    <color name="grey_dark">#D62020</color>
+    <color name="red_dark">#D62020</color>
     <color name="grey_dark_2">#BDE462</color>
     <color name="cardColor">#DD1919</color>
     <color name="font_light">#FFFFFF</color>

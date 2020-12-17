@@ -1,7 +1,7 @@
 package com.aleson.marvel.marvelcharacters.feature.character.repository
 
 import com.aleson.marvel.marvelcharacters.core.model.character.CharacterDataWrapper
-import com.aleson.marvel.marvelcharacters.core.ErrorModel
+import com.aleson.marvel.marvelcharacters.core.model.error.ErrorModel
 import com.aleson.marvel.marvelcharacters.feature.character.repository.data.CharactersDataSource
 import com.aleson.marvel.marvelcharacters.feature.character.usecase.*
 

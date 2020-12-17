@@ -1,13 +1,13 @@
 package com.aleson.marvel.marvelcharacters.feature.character.di
 
 import android.content.Context
-import com.aleson.marvel.marvelcharacters.core.di.BaseInjector
+import com.aleson.marvel.marvelcharacters.core.base.BaseInjector
 import com.aleson.marvel.marvelcharacters.feature.character.di.factory.CharactersViewModelFactory
 import com.aleson.marvel.marvelcharacters.feature.character.repository.data.CharactersDataSourceImpl
 import com.aleson.marvel.marvelcharacters.feature.character.repository.CharactersRepository
 
-const val PUBLIC_KEY = "d3b3c202369a2f3050fc60dc05ec6b9b";
-const val PRIVATE_KEY = "3d83579da752927ecd8344fb26e147be18e0aee0";
+const val PUBLIC_KEY = "002326cdaa1631d23bfb6ada5a2d7515";
+const val PRIVATE_KEY = "12fdc64385ad40054f84c773588ee2e7c9f0d6af";
 
 class CharactersInjector : BaseInjector(){
 

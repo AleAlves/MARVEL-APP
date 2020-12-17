@@ -44,7 +44,7 @@ class CharactersViewModel(
             updateFavoriteUseCase.request = UpdateFavoriteRequest(character)
             updateFavoriteUseCase.execute({ response ->
                 super.events.value = response?.character?.let { character ->
-                    CharactersViewEvent.OnFavoriteSaved(character)
+                    CharactersViewEvent.OnFavoriteUpdated(character)
                 }
             }, {
                 onError(it?.message)

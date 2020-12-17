@@ -7,7 +7,7 @@ sealed class CharactersViewEvent {
 
     data class OnLoadCharacters(val characters: CharacterDataWrapper?) : CharactersViewEvent()
 
-    data class OnFavoriteSaved(val character : Character) : CharactersViewEvent()
+    data class OnFavoriteUpdated(val character : Character) : CharactersViewEvent()
 
     data class OnLoadFavorites(val characters: List<Character>?) : CharactersViewEvent()
 

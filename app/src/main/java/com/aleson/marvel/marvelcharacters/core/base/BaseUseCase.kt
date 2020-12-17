@@ -1,6 +1,6 @@
 package com.aleson.marvel.marvelcharacters.core.base
 
-import com.aleson.marvel.marvelcharacters.core.ErrorModel
+import com.aleson.marvel.marvelcharacters.core.model.error.ErrorModel
 
 interface UseCaseRequest
 

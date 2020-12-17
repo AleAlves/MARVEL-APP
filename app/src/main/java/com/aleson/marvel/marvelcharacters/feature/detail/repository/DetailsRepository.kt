@@ -1,6 +1,6 @@
 package com.aleson.marvel.marvelcharacters.feature.detail.repository
 
-import com.aleson.marvel.marvelcharacters.core.ErrorModel
+import com.aleson.marvel.marvelcharacters.core.model.error.ErrorModel
 import com.aleson.marvel.marvelcharacters.feature.character.usecase.UpdateFavoriteRequest
 import com.aleson.marvel.marvelcharacters.feature.character.usecase.UpdateFavoriteResponse
 import com.aleson.marvel.marvelcharacters.feature.detail.repository.data.DetailsDataSource

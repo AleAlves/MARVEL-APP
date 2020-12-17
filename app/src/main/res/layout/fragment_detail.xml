@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".feature.detail.view.ui.DetailFragment">
+    tools:context=".feature.detail.view.ui.fragment.DetailFragment">
 
     <include layout="@layout/toolbar" />
 
@@ -12,7 +12,7 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_marginTop="@dimen/size_70dp"
-        android:windowSoftInputMode="stateVisible|adjustPan"
+        android:windowSoftInputMode="adjustNothing"
         app:layout_constraintTop_toBottomOf="@+id/toolbar">
 
         <include layout="@layout/fragment_details_content" />

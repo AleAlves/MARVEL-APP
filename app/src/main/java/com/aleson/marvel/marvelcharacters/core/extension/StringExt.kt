@@ -1,4 +1,4 @@
-package com.aleson.marvel.marvelcharacters.core.util
+package com.aleson.marvel.marvelcharacters.core.extension
 
 import java.security.MessageDigest
 import java.security.NoSuchAlgorithmException

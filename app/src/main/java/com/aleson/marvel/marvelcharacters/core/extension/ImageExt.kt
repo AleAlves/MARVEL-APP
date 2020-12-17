@@ -1,4 +1,4 @@
-package com.aleson.marvel.marvelcharacters.core.util
+package com.aleson.marvel.marvelcharacters.core.extension
 
 import android.content.Context
 import android.widget.ImageView

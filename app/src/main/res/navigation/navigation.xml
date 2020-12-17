@@ -15,7 +15,7 @@
     </fragment>
     <fragment
         android:id="@+id/detailFragment"
-        android:name="com.aleson.marvel.marvelcharacters.feature.detail.view.ui.DetailFragment"
+        android:name="com.aleson.marvel.marvelcharacters.feature.detail.view.ui.fragment.DetailFragment"
         android:label="fragment_characters_detail"
         tools:layout="@layout/fragment_detail">
         <action

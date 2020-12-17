@@ -32,38 +32,19 @@
             app:layout_constraintTop_toTopOf="parent" />
     </androidx.constraintlayout.widget.ConstraintLayout>
 
-    <TextView
-        android:id="@+id/character_details_comics_label"
-        style="@style/textBold26"
+    <com.aleson.marvel.marvelcharacters.feature.detail.view.ui.custom.ResourceView
+        android:id="@+id/comics_recyclerview_custom"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_margin="@dimen/size_16dp"
-        android:text="@string/label_details_title_comics"
+        android:layout_margin="@dimen/size_8dp"
         app:layout_constraintTop_toBottomOf="@+id/character_details_contraintlayout" />
 
-    <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/comics_recyclerview"
+    <com.aleson.marvel.marvelcharacters.feature.detail.view.ui.custom.ResourceView
+        android:id="@+id/series_recyclerview_custom"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_margin="@dimen/size_8dp"
-        android:layout_marginBottom="@dimen/size_200dp"
-        app:layout_constraintTop_toBottomOf="@+id/character_details_comics_label" />
+        app:layout_constraintTop_toBottomOf="@+id/comics_recyclerview_custom" />
 
-    <TextView
-        android:id="@+id/character_details_series_label"
-        style="@style/textBold26"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_margin="@dimen/size_8dp"
-        android:text="@string/label_details_title_series"
-        app:layout_constraintTop_toBottomOf="@+id/comics_recyclerview" />
-
-    <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/series_recyclerview"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_margin="@dimen/size_8dp"
-        android:layout_marginBottom="@dimen/size_200dp"
-        app:layout_constraintTop_toBottomOf="@+id/character_details_series_label" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

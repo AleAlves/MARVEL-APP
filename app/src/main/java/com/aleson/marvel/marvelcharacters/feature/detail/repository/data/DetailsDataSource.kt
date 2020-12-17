@@ -1,6 +1,6 @@
 package com.aleson.marvel.marvelcharacters.feature.detail.repository.data
 
-import com.aleson.marvel.marvelcharacters.core.ErrorModel
+import com.aleson.marvel.marvelcharacters.core.model.error.ErrorModel
 import com.aleson.marvel.marvelcharacters.feature.character.repository.data.UpdateDataSource
 import com.aleson.marvel.marvelcharacters.feature.detail.usecase.*
 
