@@ -9,9 +9,10 @@ import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.recyclerview.widget.RecyclerView
 import com.aleson.marvel.marvelcharacters.R
 import com.aleson.marvel.marvelcharacters.core.base.ViewItem
+import com.aleson.marvel.marvelcharacters.core.extension.loadImageFromUrl
 import com.aleson.marvel.marvelcharacters.core.model.character.Character
 import com.aleson.marvel.marvelcharacters.core.ui.GenericBinder
-import com.aleson.marvel.marvelcharacters.core.extension.loadImageFromUrl
+
 
 class CharacterViewHolder<T>(
     var context: Context?,
@@ -28,8 +29,8 @@ class CharacterViewHolder<T>(
         view.findViewById(R.id.character_details_constraintlayout_item)
 
     override fun bind(data: T, position: Int) {
-        data as ViewItem<Character>
-        name.text = data.data.name
+        (data as ViewItem<Character>)
+        name.text = position.toString()
         loadImageFromUrl(context as Context, data.data.thumbnail, image, R.drawable.placeholder)
         item.setOnClickListener {
             onItemSelected(data.data)

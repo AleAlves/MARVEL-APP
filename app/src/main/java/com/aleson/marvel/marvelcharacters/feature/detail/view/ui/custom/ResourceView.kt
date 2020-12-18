@@ -25,7 +25,7 @@ class ResourceView(context: Context, attributeSet: AttributeSet) :
         R.layout.resource_list_view, this, true
     )
 
-    private var charactersAdapter: BaseRecyclerViewAdapter<ViewItem<Resource>> =
+    private var adapter: BaseRecyclerViewAdapter<ViewItem<Resource>> =
         object : BaseRecyclerViewAdapter<ViewItem<Resource>>() {
 
             override fun getViewHolder(view: View, viewType: Int): RecyclerView.ViewHolder =
@@ -40,7 +40,7 @@ class ResourceView(context: Context, attributeSet: AttributeSet) :
         recyclerView = view.findViewById(R.id.resource_recyclerview)
         recyclerView.layoutManager =
             LinearLayoutManager(context, LinearLayoutManager.HORIZONTAL, false)
-        recyclerView.adapter = charactersAdapter
+        recyclerView.adapter = adapter
     }
 
     fun setTitle(title: String) {
@@ -51,9 +51,9 @@ class ResourceView(context: Context, attributeSet: AttributeSet) :
         resources: List<Resource>?
     ) {
         items.clear()
-        charactersAdapter.clear()
+        adapter.clear()
         resources?.map { resource -> items.add(ViewItem(resource)) }
-        charactersAdapter.add(items)
+        adapter.add(items)
         emptyState()
     }
 
@@ -61,5 +61,9 @@ class ResourceView(context: Context, attributeSet: AttributeSet) :
         if(items.size < 1){
             title.visibility = View.GONE
         }
+    }
+
+    fun notifyDataChange() {
+        adapter.notifyDataSetChanged()
     }
 }

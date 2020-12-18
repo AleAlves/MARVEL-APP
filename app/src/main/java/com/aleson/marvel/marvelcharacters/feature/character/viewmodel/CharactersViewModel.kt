@@ -1,5 +1,6 @@
 package com.aleson.marvel.marvelcharacters.feature.character.viewmodel
 
+import androidx.lifecycle.MutableLiveData
 import com.aleson.marvel.marvelcharacters.core.base.BaseViewModel
 import com.aleson.marvel.marvelcharacters.core.model.character.Character
 import com.aleson.marvel.marvelcharacters.feature.character.usecase.*
@@ -14,14 +15,29 @@ class CharactersViewModel(
 
     BaseViewModel<CharactersViewEvent>() {
 
+    var events = MutableLiveData<CharactersViewEvent>()
+
     override fun setup() {
     }
 
-    fun getCharacters() {
+    fun fetch(name: String? = null, offset: Int? = 0) {
         async {
-            getCharactersUseCase.request = GetCharactersRequest(limite = "20", orderBy = "name")
+            getCharactersUseCase.request =
+                GetCharactersRequest(limite = "20", orderBy = "name", name = name, offset = offset)
             getCharactersUseCase.execute({ response ->
-                super.events.value = CharactersViewEvent.OnLoadCharacters(response?.characters)
+                events.value = CharactersViewEvent.OnLoadMoreCharacters(response?.characters)
+            }, {
+                onError(it?.message)
+            })
+        }
+    }
+
+    fun search(name: String? = null, offset: Int? = 0) {
+        async {
+            getCharactersUseCase.request =
+                GetCharactersRequest(limite = "20", orderBy = "name", name = name, offset = offset)
+            getCharactersUseCase.execute({ response ->
+                events.value = CharactersViewEvent.OnLoadSearch(response?.characters)
             }, {
                 onError(it?.message)
             })
@@ -43,7 +59,7 @@ class CharactersViewModel(
         async {
             updateFavoriteUseCase.request = UpdateFavoriteRequest(character)
             updateFavoriteUseCase.execute({ response ->
-                super.events.value = response?.character?.let { character ->
+                events.value = response?.character?.let { character ->
                     CharactersViewEvent.OnFavoriteUpdated(character)
                 }
             }, {
@@ -55,7 +71,7 @@ class CharactersViewModel(
     fun getFavorites() {
         async {
             getFavoritesUseCase.execute({ response ->
-                super.events.value = CharactersViewEvent.OnLoadFavorites(response?.characters)
+                events.value = CharactersViewEvent.OnLoadFavorites(response?.characters)
             }, { error ->
                 onError(error?.message)
             })
@@ -63,6 +79,6 @@ class CharactersViewModel(
     }
 
     override fun onError(message: String?) {
-        super.events.value = CharactersViewEvent.OnError(message)
+        events.value = CharactersViewEvent.OnError(message)
     }
 }

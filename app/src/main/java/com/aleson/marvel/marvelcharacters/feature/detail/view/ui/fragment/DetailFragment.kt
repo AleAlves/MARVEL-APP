@@ -1,30 +1,25 @@
 package com.aleson.marvel.marvelcharacters.feature.detail.view.ui.fragment
 
+import android.os.Bundle
 import android.view.View
 import android.widget.ImageView
 import android.widget.TextView
 import androidx.constraintlayout.widget.ConstraintLayout
-import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
-import androidx.recyclerview.widget.LinearLayoutManager
-import androidx.recyclerview.widget.RecyclerView
 import com.aleson.marvel.marvelcharacters.R
 import com.aleson.marvel.marvelcharacters.core.base.BaseFragment
-import com.aleson.marvel.marvelcharacters.core.base.ViewItem
 import com.aleson.marvel.marvelcharacters.core.model.character.Character
 import com.aleson.marvel.marvelcharacters.core.model.character.Comics
-import com.aleson.marvel.marvelcharacters.core.model.character.Resource
 import com.aleson.marvel.marvelcharacters.core.model.character.Series
-import com.aleson.marvel.marvelcharacters.core.ui.BaseRecyclerViewAdapter
 import com.aleson.marvel.marvelcharacters.core.extension.getIdfromURI
 import com.aleson.marvel.marvelcharacters.core.extension.loadImageFromUrl
 import com.aleson.marvel.marvelcharacters.feature.detail.di.DetailsInjector
 import com.aleson.marvel.marvelcharacters.feature.detail.view.event.DetailsViewEvent
 import com.aleson.marvel.marvelcharacters.feature.detail.view.ui.custom.ResourceView
-import com.aleson.marvel.marvelcharacters.feature.detail.view.ui.viewholder.DetailsViewHolder
 import com.aleson.marvel.marvelcharacters.feature.detail.viewmodel.DetailsViewModel
 
+private const val ARG_CHARACTER = "character"
 
 class DetailFragment : BaseFragment() {
 
@@ -39,6 +34,24 @@ class DetailFragment : BaseFragment() {
     override fun getFragmentTag() = "CharactersDetailFragment"
 
     override fun getFragmentLayout(): Int = R.layout.fragment_detail
+
+    companion object {
+
+        @JvmStatic
+        fun newInstance(character: Character) =
+            DetailFragment().apply {
+                arguments = Bundle().apply {
+                    putParcelable(ARG_CHARACTER, character)
+                }
+            }
+    }
+
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        arguments?.let {
+            character = it.getParcelable(ARG_CHARACTER)
+        }
+    }
 
     override fun onBindView(view: View) {
         image = view.findViewById(R.id.character_details_imageview)
@@ -69,27 +82,25 @@ class DetailFragment : BaseFragment() {
 
     private fun loadComics(comics: Comics) {
 
-//        comics.items?.map { item ->
-//            comiscAdapter.add(ViewItem(item))
-//            viewModel.getComicsMedia(getIdfromURI(item.resourceURI)) {
-//                item.image = it
-//                comiscAdapter.notifyDataSetChanged()
-//            }
-//        }
+        comics.items?.map { item ->
+            viewModel.getComicsMedia(getIdfromURI(item.resourceURI)) {
+                item.image = it
+                comicsResourceView.notifyDataChange()
+            }
+        }
         comicsResourceView.addAll(comics.items)
     }
 
     private fun loadSeries(series: Series) {
 
-        seriesResourceView.addAll(series.items)
+        series.items?.map { item ->
+            viewModel.getSeriesMedia(getIdfromURI(item.resourceURI)) {
+                item.image = it
+                seriesResourceView.notifyDataChange()
+            }
+        }
 
-//        series.items?.map { item ->
-//            seriesAdapter.add(ViewItem(item))
-//            viewModel.getSeriesMedia(getIdfromURI(item.resourceURI)) {
-//                item.image = it
-//                seriesAdapter.notifyDataSetChanged()
-//            }
-//        }
+        seriesResourceView.addAll(series.items)
     }
 
     override fun setupViewModel() {

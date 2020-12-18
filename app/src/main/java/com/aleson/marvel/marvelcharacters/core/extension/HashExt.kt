@@ -1,8 +1,10 @@
 package com.aleson.marvel.marvelcharacters.core.extension
 
-import com.aleson.marvel.marvelcharacters.feature.character.di.PRIVATE_KEY
-import com.aleson.marvel.marvelcharacters.feature.character.di.PUBLIC_KEY
+import com.aleson.marvel.marvelcharacters.core.ui.GeneralSetup.Companion.privateKey
+import com.aleson.marvel.marvelcharacters.core.ui.GeneralSetup.Companion.publicKey
 
 fun generateHash(timeStamp: String): String {
-    return (timeStamp + PRIVATE_KEY + PUBLIC_KEY).toMd5()
+    return (timeStamp + privateKey + publicKey).toMd5()
 }
+
+fun getTimeStamp() = System.currentTimeMillis().toString()

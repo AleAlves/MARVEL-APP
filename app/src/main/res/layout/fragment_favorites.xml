@@ -1,16 +1,15 @@
 <?xml version="1.0" encoding="utf-8"?>
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    tools:context=".feature.character.view.ui.fragment.FavoritesFragment">
+    android:layout_height="wrap_content"
+    android:paddingBottom="@dimen/size_100dp">
 
     <com.aleson.marvel.marvelcharacters.feature.character.view.ui.custom.CharactersView
         android:id="@+id/characters_view_recyclerview"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_margin="@dimen/font_12sp"
+        android:layout_margin="@dimen/size_8dp"
         app:layout_constraintTop_toBottomOf="@+id/characters_textinputlayout_search" />
 
-</FrameLayout>
+</androidx.constraintlayout.widget.ConstraintLayout>

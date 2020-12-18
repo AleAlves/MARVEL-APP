@@ -11,7 +11,7 @@ import android.widget.ImageView
 import android.widget.TextView
 import android.widget.Toast
 import androidx.appcompat.widget.Toolbar
-import com.aleson.marvel.marvelcharacters.R
+import com.aleson.marvel.marvelcharacters.core.model.character.Character
 
 abstract class BaseFragment : BaseDialogFragment() {
 
@@ -19,7 +19,8 @@ abstract class BaseFragment : BaseDialogFragment() {
     lateinit var toolbarButton: ImageButton
     lateinit var toolBarTitle: TextView
     lateinit var toolbar: Toolbar
-    private var dialog : Dialog? =  null
+    private var dialog: Dialog? = null
+    lateinit var listener: OnFragmentEventsListener
 
     abstract fun getFragmentTag(): String?
 
@@ -35,8 +36,13 @@ abstract class BaseFragment : BaseDialogFragment() {
 
     abstract fun oberserverEvent()
 
+    interface OnFragmentEventsListener {
+        fun onDetails(it: Character)
+    }
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        this.setupViewModel()
     }
 
     override fun onCreateView(
@@ -48,34 +54,41 @@ abstract class BaseFragment : BaseDialogFragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        this.setupViewModel()
         this.onBindView(view)
         this.setupView()
         this.onClickListeners()
         this.oberserverEvent()
     }
 
+    override fun onAttach(context: Context) {
+        super.onAttach(context)
+        listener = context as OnFragmentEventsListener
+    }
 
-    fun showToast(context: Context?, string: String?){
+    fun showToast(context: Context?, string: String?) {
         hideLoading()
         Toast.makeText(context, string, Toast.LENGTH_LONG).show()
     }
 
     fun showLoading() {
-        if(dialog == null){
+        if (dialog == null) {
             dialog = super.loading(context as Context) as Dialog
-        }
-        if (dialog!!.isShowing as Boolean){
-            throw Exception("Can't show more than one loading")
-        }
-        else {
-            dialog!!.show()
+        } else {
+            if (dialog?.isShowing as Boolean) {
+                throw Exception("Can't show more than one loading")
+            } else {
+                dialog?.show()
+            }
         }
     }
 
     fun hideLoading() {
-        if (dialog!!.isShowing)
-            dialog!!.dismiss()
+        if (dialog != null) {
+            val state = dialog?.isShowing
+            if (state as Boolean)
+                dialog?.dismiss()
+        }
+
     }
 
 }

@@ -8,7 +8,13 @@ import com.aleson.marvel.marvelcharacters.core.model.error.ErrorModel
 import com.aleson.marvel.marvelcharacters.feature.character.repository.CharactersRepository
 
 
-class GetCharactersRequest(var limite: String, var orderBy: String) : UseCaseRequest
+class GetCharactersRequest(
+    var limite: String,
+    var orderBy: String,
+    var name: String?,
+    var offset: Int? = 0
+) :
+    UseCaseRequest
 
 class GetCharactersResponse(val characters: CharacterDataWrapper) : UseCaseResponse
 

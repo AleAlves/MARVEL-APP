@@ -5,7 +5,9 @@ import com.aleson.marvel.marvelcharacters.core.model.character.CharacterDataWrap
 
 sealed class CharactersViewEvent {
 
-    data class OnLoadCharacters(val characters: CharacterDataWrapper?) : CharactersViewEvent()
+    data class OnLoadSearch(val characters: CharacterDataWrapper?) : CharactersViewEvent()
+
+    data class OnLoadMoreCharacters(val characters: CharacterDataWrapper?) : CharactersViewEvent()
 
     data class OnFavoriteUpdated(val character : Character) : CharactersViewEvent()
 

@@ -8,8 +8,6 @@ import kotlin.coroutines.CoroutineContext
 
 abstract class BaseViewModel<ViewEvent> : ViewModel(), CoroutineScope {
 
-    var events = MutableLiveData<ViewEvent>()
-
     private val viewModelJob = SupervisorJob()
     override val coroutineContext: CoroutineContext = Dispatchers.Main + viewModelJob
 

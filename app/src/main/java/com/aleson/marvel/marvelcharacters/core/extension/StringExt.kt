@@ -1,5 +1,6 @@
 package com.aleson.marvel.marvelcharacters.core.extension
 
+import com.aleson.marvel.marvelcharacters.core.ui.GeneralSetup
 import java.security.MessageDigest
 import java.security.NoSuchAlgorithmException
 
@@ -11,4 +12,8 @@ fun String.toMd5(): String {
     } catch (e: NoSuchAlgorithmException) {
     }
     return ""
+}
+
+fun generateOffset(offset: Int, onOffSet: (Int) -> Unit) {
+    onOffSet(offset + GeneralSetup.limit)
 }

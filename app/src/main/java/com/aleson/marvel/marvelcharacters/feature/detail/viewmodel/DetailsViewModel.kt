@@ -1,5 +1,6 @@
 package com.aleson.marvel.marvelcharacters.feature.detail.viewmodel
 
+import androidx.lifecycle.MutableLiveData
 import com.aleson.marvel.marvelcharacters.core.base.BaseViewModel
 import com.aleson.marvel.marvelcharacters.core.model.character.Character
 import com.aleson.marvel.marvelcharacters.core.model.character.Image
@@ -15,6 +16,8 @@ class DetailsViewModel(
     private val updateFavoriteUseCase: UpdateFavoriteUseCase
 ) : BaseViewModel<DetailsViewEvent>() {
 
+    var events = MutableLiveData<DetailsViewEvent>()
+
     override fun setup() {
     }
 
@@ -24,7 +27,7 @@ class DetailsViewModel(
             getComicsMedia.execute({
                 onLoadMedia(it?.comics?.data?.results?.get(0)?.thumbnail)
             }, {
-                print("")
+                print(it?.message)
             })
         }
     }
@@ -35,7 +38,7 @@ class DetailsViewModel(
             getComicsMedia.execute({
                 onLoadMedia(it?.comics?.data?.results?.get(0)?.thumbnail)
             }, {
-                print("")
+                print(it?.message)
             })
         }
     }
@@ -44,7 +47,7 @@ class DetailsViewModel(
         async {
             updateFavoriteUseCase.request = UpdateFavoriteRequest(character)
             updateFavoriteUseCase.execute({
-                super.events.value = DetailsViewEvent.OnFavoriteDeleted(it?.character?.favorite)
+                events.value = DetailsViewEvent.OnFavoriteDeleted(it?.character?.favorite)
             }, {
                 onError(it?.message)
             })
@@ -52,6 +55,7 @@ class DetailsViewModel(
     }
 
     override fun onError(message: String?) {
+        events.value = DetailsViewEvent.OnError(message)
     }
 
 }

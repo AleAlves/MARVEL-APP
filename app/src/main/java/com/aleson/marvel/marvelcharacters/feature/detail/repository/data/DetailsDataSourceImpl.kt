@@ -5,8 +5,9 @@ import com.aleson.marvel.marvelcharacters.core.model.error.ErrorModel
 import com.aleson.marvel.marvelcharacters.core.model.comics.ComicsDataWrapper
 import com.aleson.marvel.marvelcharacters.core.model.series.SeriesDataWrapper
 import com.aleson.marvel.marvelcharacters.core.extension.generateHash
+import com.aleson.marvel.marvelcharacters.core.extension.getTimeStamp
 import com.aleson.marvel.marvelcharacters.core.room.dao.RoomLocalDataBase
-import com.aleson.marvel.marvelcharacters.feature.character.di.PUBLIC_KEY
+import com.aleson.marvel.marvelcharacters.core.ui.GeneralSetup.Companion.publicKey
 import com.aleson.marvel.marvelcharacters.feature.character.usecase.UpdateFavoriteRequest
 import com.aleson.marvel.marvelcharacters.feature.character.usecase.UpdateFavoriteResponse
 import com.aleson.marvel.marvelcharacters.feature.detail.repository.api.GetMediaApi
@@ -19,8 +20,6 @@ import java.lang.Exception
 class DetailsDataSourceImpl(var database: RoomLocalDataBase?) :
     DetailsDataSource {
 
-    private var timeStamp = System.currentTimeMillis().toString()
-
     override fun getComicsMedia(
         request: GetComicsMediaRequest,
         onResponse: (GetComicsMediaResponse) -> Unit,
@@ -29,11 +28,7 @@ class DetailsDataSourceImpl(var database: RoomLocalDataBase?) :
 
         val call = object : Callback<ComicsDataWrapper?> {
             override fun onFailure(call: Call<ComicsDataWrapper?>, t: Throwable) {
-                onError(
-                    ErrorModel(
-                        t.toString()
-                    )
-                )
+                onError(ErrorModel(t.toString()))
             }
 
             override fun onResponse(
@@ -41,22 +36,20 @@ class DetailsDataSourceImpl(var database: RoomLocalDataBase?) :
                 response: Response<ComicsDataWrapper?>
             ) {
                 if (response.body() == null || response.code() != 200) {
-                    onError(
-                        ErrorModel(
-                            response.message()
-                        )
-                    )
+                    onError(ErrorModel(response.message()))
                 } else {
                     onResponse(GetComicsMediaResponse(response.body() as ComicsDataWrapper))
                 }
             }
         }
 
+        val timeStamp = getTimeStamp()
+
         Connector.request().create(GetMediaApi::class.java)
             .getComicsMedia(
                 request.id,
                 timeStamp,
-                PUBLIC_KEY,
+                publicKey,
                 generateHash(timeStamp)
             ).enqueue(call)
     }
@@ -68,11 +61,7 @@ class DetailsDataSourceImpl(var database: RoomLocalDataBase?) :
     ) {
         val call = object : Callback<SeriesDataWrapper?> {
             override fun onFailure(call: Call<SeriesDataWrapper?>, t: Throwable) {
-                onError(
-                    ErrorModel(
-                        t.toString()
-                    )
-                )
+                onError(ErrorModel(t.toString()))
             }
 
             override fun onResponse(
@@ -80,22 +69,20 @@ class DetailsDataSourceImpl(var database: RoomLocalDataBase?) :
                 response: Response<SeriesDataWrapper?>
             ) {
                 if (response.body() == null || response.code() != 200) {
-                    onError(
-                        ErrorModel(
-                            response.message()
-                        )
-                    )
+                    onError(ErrorModel(response.message()))
                 } else {
                     onResponse(GetSeriesMediaResponse(response.body() as ComicsDataWrapper))
                 }
             }
         }
 
+        val timeStamp = getTimeStamp()
+
         Connector.request().create(GetMediaApi::class.java)
             .getSeriesMedia(
                 request.id,
                 timeStamp,
-                PUBLIC_KEY,
+                publicKey,
                 generateHash(timeStamp)
             ).enqueue(call)
     }
@@ -119,11 +106,7 @@ class DetailsDataSourceImpl(var database: RoomLocalDataBase?) :
             }
 
         } catch (e: Exception) {
-            onError(
-                ErrorModel(
-                    e.toString()
-                )
-            )
+            onError(ErrorModel(e.toString()))
         }
     }
 
