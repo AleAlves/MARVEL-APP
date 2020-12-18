@@ -58,16 +58,29 @@ class FavoritesFragment : BaseFragment() {
         this.viewModel.events.observe(this, Observer {
             super.hideLoading()
             when (it) {
-                is CharactersViewEvent.OnLoadFavorites -> loadFavorites(it.characters)
-                is CharactersViewEvent.OnError -> super.showToast(context, it.toString())
+                is CharactersViewEvent.OnLoadFavorites -> it.characters?.let { characters ->
+                    loadFavorites(characters)
+                }
+                is CharactersViewEvent.OnError -> {
+                    onError(it.error)
+                }
                 else -> showToast(context, "something weird happned!")
             }
         })
     }
 
-    private fun loadFavorites(characters: List<Character>?) {
+    private fun onError(message: String?) {
+        favorites.onError()
+        super.showToast(context, message.toString())
+    }
+
+    private fun loadFavorites(characters: List<Character>) {
         favorites.reset()
-        favorites.addAll(characters)
+        if (characters.isEmpty()) {
+            favorites.onEmpty()
+        } else {
+            favorites.addAll(characters)
+        }
     }
 
 }

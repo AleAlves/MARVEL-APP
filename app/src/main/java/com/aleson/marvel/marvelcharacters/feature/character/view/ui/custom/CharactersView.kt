@@ -21,6 +21,8 @@ class CharactersView(context: Context, attributeSet: AttributeSet) :
 
     private var recyclerView: RecyclerView
     private var swipeRefresh: SwipeRefreshLayout
+    private var errorLayout: ConstraintLayout
+    private var emptyLayout: ConstraintLayout
     private var loadingMore = false
 
     lateinit var onItemSelected: (Character) -> Unit
@@ -53,9 +55,13 @@ class CharactersView(context: Context, attributeSet: AttributeSet) :
     init {
         recyclerView = view.findViewById(R.id.characters_recyclerview)
         swipeRefresh = view.findViewById(R.id.characters_swipe_refresh)
+        errorLayout = view.findViewById(R.id.error_layout_container)
+        emptyLayout = view.findViewById(R.id.empty_layout_container)
         recyclerView.layoutManager = GridLayoutManager(context, 2)
         recyclerView.adapter = charactersAdapter
         charactersAdapter.clear()
+        errorLayout.visibility = View.GONE
+        emptyLayout.visibility = View.GONE
         items.clear()
         onSwipeListener()
         onScrollListener()
@@ -64,6 +70,7 @@ class CharactersView(context: Context, attributeSet: AttributeSet) :
     fun addAll(
         characters: List<Character>?
     ) {
+        clearExceptionStates()
         charactersAdapter.clear()
         characters?.forEach { character -> items.add(ViewItem(character)) }
         charactersAdapter.add(items)
@@ -112,6 +119,21 @@ class CharactersView(context: Context, attributeSet: AttributeSet) :
         items.clear()
         charactersAdapter.clear()
         notifyDataChange()
+    }
+
+    fun onError() {
+        reset()
+        errorLayout.visibility = View.VISIBLE
+    }
+
+    fun onEmpty(){
+        reset()
+        emptyLayout.visibility = View.VISIBLE
+    }
+
+    fun clearExceptionStates(){
+        errorLayout.visibility = View.GONE
+        emptyLayout.visibility = View.GONE
     }
 
 }

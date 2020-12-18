@@ -34,13 +34,11 @@ class MainActivity : AppCompatActivity(), BaseFragment.OnFragmentEventsListener 
     private fun navigateTo(fragment: Fragment) {
         this.fragment = fragment
         fragmentTransaction = fragmentManager.beginTransaction()
-        fragmentTransaction.add(R.id.base_fragment_container, this.fragment)
-        fragmentTransaction.commit()
+        fragmentTransaction.add(R.id.base_fragment_container, this.fragment).commit()
     }
 
     override fun onBackPressed() {
         fragmentTransaction = fragmentManager.beginTransaction()
-        fragmentTransaction.remove(this.fragment)
-        fragmentTransaction.commit()
+        fragmentTransaction.remove(this.fragment).commit()
     }
 }

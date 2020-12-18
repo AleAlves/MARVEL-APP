@@ -5,8 +5,8 @@ class GeneralSetup {
     companion object {
 
         const val limit = 20
-        const val publicKey = "d3b3c202369a2f3050fc60dc05ec6b9b";
-        const val privateKey = "3d83579da752927ecd8344fb26e147be18e0aee0";
+        const val publicKey = "3a945e70b0f2d0255bdf125ff5bda7fb"
+        const val privateKey = "a246663f27c027b838c050696a9d734b91e300b4"
 
         const val TIME_STAMP = "ts"
         const val API_KEY = "apikey"

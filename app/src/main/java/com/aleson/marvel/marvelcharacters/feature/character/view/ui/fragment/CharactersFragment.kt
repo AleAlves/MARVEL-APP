@@ -105,10 +105,19 @@ class CharactersFragment : BaseFragment() {
                     onLoadMoreCharacters(it.characters?.data?.results)
                 }
                 is CharactersViewEvent.OnFavoriteUpdated -> charactersView.updateFavoriteItem(it.character)
-                is CharactersViewEvent.OnError -> super.showToast(context, it.error)
+                is CharactersViewEvent.OnError -> {
+                    onError(it.error)
+                }
                 else -> showToast(context, "something went wrong")
             }
         })
+    }
+
+    private fun onError(message: String?) {
+        super.showToast(context, message)
+        if(charactersView.getItemsCount() == 0){
+            charactersView.onError()
+        }
     }
 
     private fun onLoadMoreCharacters(characters: ArrayList<Character>?) {
