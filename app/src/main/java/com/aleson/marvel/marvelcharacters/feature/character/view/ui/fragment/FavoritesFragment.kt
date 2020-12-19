@@ -15,6 +15,8 @@ import com.aleson.marvel.marvelcharacters.feature.character.view.event.Character
 import com.aleson.marvel.marvelcharacters.feature.character.view.ui.widget.CharactersWidget
 import com.aleson.marvel.marvelcharacters.feature.character.viewmodel.CharactersViewModel
 
+private const val ARG_CHARACTER = "character"
+
 class FavoritesFragment : BaseFragment() {
 
     private lateinit var viewModel: CharactersViewModel
@@ -73,7 +75,7 @@ class FavoritesFragment : BaseFragment() {
                 is CharactersViewEvent.OnError -> {
                     onError(it.error)
                 }
-                else -> showToast(context, "something weird happned!")
+                else -> showToast(context, getString(R.string.label_generic_error_message))
             }
         })
     }
@@ -93,7 +95,7 @@ class FavoritesFragment : BaseFragment() {
     }
 
     private fun setNavigationController(character: Character) {
-        val bundle = bundleOf("character" to character)
+        val bundle = bundleOf(ARG_CHARACTER to character)
         findNavController().navigate(R.id.action_homeFragment_to_detailFragment, bundle)
     }
 

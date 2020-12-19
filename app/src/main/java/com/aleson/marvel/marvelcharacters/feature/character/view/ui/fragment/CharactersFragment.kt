@@ -18,10 +18,13 @@ import com.aleson.marvel.marvelcharacters.feature.character.view.event.Character
 import com.aleson.marvel.marvelcharacters.feature.character.view.ui.widget.CharactersWidget
 import com.aleson.marvel.marvelcharacters.feature.character.viewmodel.CharactersViewModel
 
+private const val ENTER = 5
+private const val ARG_CHARACTER = "character"
+private const val INITIAL_OFFSET = 0
 
 class CharactersFragment : BaseFragment() {
 
-    private var offset: Int = 0
+    private var offset: Int = INITIAL_OFFSET
     private lateinit var viewModel: CharactersViewModel
     private lateinit var charactersWidget: CharactersWidget
     private lateinit var characterSearch: EditText
@@ -72,8 +75,8 @@ class CharactersFragment : BaseFragment() {
 
         characterSearch.setOnEditorActionListener { _, actionId, _ ->
             var handled = false
-            if (actionId == 5) {
-                offset = 0
+            if (actionId == ENTER) {
+                offset = INITIAL_OFFSET
                 search()
                 handled = true
             }
@@ -94,10 +97,10 @@ class CharactersFragment : BaseFragment() {
 
     private fun refresh() {
         super.showLoading()
-        offset = 0
+        offset = INITIAL_OFFSET
         charactersWidget.reset()
         characterSearch.text.clear()
-        viewModel.fetch()
+        viewModel.fetch(offset = INITIAL_OFFSET)
     }
 
     override fun oberserverEvent() {
@@ -109,18 +112,20 @@ class CharactersFragment : BaseFragment() {
                 is CharactersViewEvent.OnLoadMoreCharacters -> {
                     onLoadMoreCharacters(it.characters?.data?.results)
                 }
-                is CharactersViewEvent.OnFavoriteUpdated -> charactersWidget.updateFavoriteItem(it.character)
+                is CharactersViewEvent.OnFavoriteUpdated -> {
+                    charactersWidget.updateFavoriteItem(it.character)
+                }
                 is CharactersViewEvent.OnError -> {
                     onError(it.error)
                 }
-                else -> showToast(context, "something went wrong")
+                else -> showToast(context, getString(R.string.label_generic_error_message))
             }
         })
     }
 
     private fun onError(message: String?) {
         super.showToast(context, message)
-        if (charactersWidget.getItemsCount() == 0) {
+        if (charactersWidget.isEmpty()) {
             charactersWidget.onError()
         }
     }
@@ -151,7 +156,7 @@ class CharactersFragment : BaseFragment() {
     }
 
     private fun setNavigationController(character: Character) {
-        val bundle = bundleOf("character" to character)
+        val bundle = bundleOf(ARG_CHARACTER to character)
         findNavController().navigate(R.id.action_homeFragment_to_detailFragment, bundle)
     }
 

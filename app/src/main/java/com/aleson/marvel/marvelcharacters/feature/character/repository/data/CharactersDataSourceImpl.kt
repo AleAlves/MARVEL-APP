@@ -2,6 +2,7 @@ package com.aleson.marvel.marvelcharacters.feature.character.repository.data
 
 import android.net.Uri
 import br.com.connector.aleson.android.connector.Connector
+import com.aleson.marvel.marvelcharacters.core.ApplicationSetup.Companion.API.Companion.characters
 import com.aleson.marvel.marvelcharacters.core.extension.generateHash
 import com.aleson.marvel.marvelcharacters.core.model.character.CharacterDataWrapper
 import com.aleson.marvel.marvelcharacters.core.model.error.ErrorModel
@@ -49,7 +50,7 @@ class CharactersDataSourceImpl(var database: RoomLocalDataBase?) : CharactersDat
         }
 
         val timeStamp = getTimeStamp()
-        val url = Uri.parse("/v1/public/characters").buildUpon()
+        val url = Uri.parse(characters).buildUpon()
             .appendQueryParameter(HASH, generateHash(timeStamp))
             .appendQueryParameter(OFFSET, request.offset.toString())
             .appendQueryParameter(TIME_STAMP, timeStamp)

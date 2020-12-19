@@ -17,6 +17,8 @@ import com.aleson.marvel.marvelcharacters.feature.detail.view.event.DetailsViewE
 import com.aleson.marvel.marvelcharacters.feature.detail.view.ui.widget.ResourceWidget
 import com.aleson.marvel.marvelcharacters.feature.detail.viewmodel.DetailsViewModel
 
+private const val ARG_CHARACTER = "character"
+
 class DetailFragment : BaseFragment() {
 
     private var character: Character? = null
@@ -44,7 +46,7 @@ class DetailFragment : BaseFragment() {
     }
 
     override fun setupView() {
-        character = arguments?.getParcelable("character")
+        character = arguments?.getParcelable(ARG_CHARACTER)
         context?.let { loadImageFromUrl(it, character?.thumbnail, image, R.drawable.placeholder) }
         description.text = character?.description
         toolBarTitle.text = character?.name

@@ -3,10 +3,10 @@ package com.aleson.marvel.marvelcharacters
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
 import br.com.connector.aleson.android.connector.Connector
+import com.aleson.marvel.marvelcharacters.core.ApplicationSetup.Companion.API.Companion.baseUrl
 import com.aleson.marvel.marvelcharacters.core.base.BaseFragment
-import com.aleson.marvel.marvelcharacters.core.ApplicationSetup.Companion.baseUrl
 
-class MainActivity : AppCompatActivity(), BaseFragment.OnFragmentEventsListener {
+class MainActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)

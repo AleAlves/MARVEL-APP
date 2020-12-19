@@ -9,8 +9,7 @@ class ImageTypeConverter {
     @TypeConverter
     fun fromString(image: String?): Image? {
         if (image == null) return null
-        val gson = Gson()
-        return gson.fromJson<Image>(
+        return Gson().fromJson<Image>(
             image,
             Image::class.java
         )
@@ -19,7 +18,6 @@ class ImageTypeConverter {
     @TypeConverter
     fun toString(image: Image?): String? {
         if (image == null) return null
-        val gson = Gson()
-        return gson.toJson(image)
+        return Gson().toJson(image)
     }
 }

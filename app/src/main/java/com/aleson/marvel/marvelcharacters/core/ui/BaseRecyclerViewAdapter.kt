@@ -5,7 +5,7 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 
-abstract class BaseRecyclerViewAdapter<T>() : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
+abstract class BaseRecyclerViewAdapter<T> : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
 
     var listItems: MutableList<T>
     private lateinit var viewHolder: RecyclerView.ViewHolder
@@ -37,12 +37,6 @@ abstract class BaseRecyclerViewAdapter<T>() : RecyclerView.Adapter<RecyclerView.
         return getLayoutId(position, listItems[position])
     }
 
-    /**
-     * Abstract function to set layout id in viewholder
-     *
-     * @param position : item position
-     * @param obj: Generic any type of data.
-     */
     protected abstract fun getLayoutId(position: Int, obj: T): Int
 
     abstract fun getViewHolder(view: View, viewType: Int): RecyclerView.ViewHolder
@@ -67,11 +61,6 @@ abstract class BaseRecyclerViewAdapter<T>() : RecyclerView.Adapter<RecyclerView.
         }
         this.notifyDataSetChanged()
     }
-}
-
-interface BaseRecyclerListener<T> {
-
-    fun onClickListener(data: T, v: View, position: Int)
 }
 
 interface GenericBinder<T> {

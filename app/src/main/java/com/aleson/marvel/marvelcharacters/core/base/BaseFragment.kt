@@ -20,7 +20,6 @@ abstract class BaseFragment : BaseDialogFragment() {
     lateinit var toolBarTitle: TextView
     lateinit var toolbar: Toolbar
     private var dialog: Dialog? = null
-    lateinit var listener: OnFragmentEventsListener
 
     abstract fun getFragmentTag(): String?
 
@@ -35,11 +34,6 @@ abstract class BaseFragment : BaseDialogFragment() {
     abstract fun onClickListeners()
 
     abstract fun oberserverEvent()
-
-    interface OnFragmentEventsListener {
-//        fun onDetails(it: Character)
-//        fun onUpdate()
-    }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -59,15 +53,6 @@ abstract class BaseFragment : BaseDialogFragment() {
         this.setupView()
         this.onClickListeners()
         this.oberserverEvent()
-    }
-
-    override fun onAttach(context: Context) {
-        super.onAttach(context)
-        listener = context as OnFragmentEventsListener
-    }
-
-    override fun onViewStateRestored(savedInstanceState: Bundle?) {
-        super.onViewStateRestored(savedInstanceState)
     }
 
     override fun onDetach() {

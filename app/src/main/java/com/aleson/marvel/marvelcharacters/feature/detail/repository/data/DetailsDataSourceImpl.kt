@@ -40,7 +40,7 @@ class DetailsDataSourceImpl(var database: RoomLocalDataBase?) :
                 call: Call<ComicsDataWrapper?>,
                 response: Response<ComicsDataWrapper?>
             ) {
-                if (response.body() == null || response.code() != 200) {
+                if (response.body() == null || response.code() != sucess) {
                     onError(ErrorModel(response.message()))
                 } else {
                     onResponse(GetComicsMediaResponse(response.body() as ComicsDataWrapper))

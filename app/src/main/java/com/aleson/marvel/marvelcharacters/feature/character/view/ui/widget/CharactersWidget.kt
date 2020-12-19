@@ -14,6 +14,9 @@ import com.aleson.marvel.marvelcharacters.core.model.character.Character
 import com.aleson.marvel.marvelcharacters.core.ui.BaseRecyclerViewAdapter
 import com.aleson.marvel.marvelcharacters.feature.character.view.ui.viewholder.CharacterViewHolder
 
+private const val COLUMNS = 2
+private const val DIRECTION = 2
+private const val IDLE = 0
 
 class CharactersWidget(context: Context, attributeSet: AttributeSet) :
     ConstraintLayout(context, attributeSet) {
@@ -56,7 +59,7 @@ class CharactersWidget(context: Context, attributeSet: AttributeSet) :
         swipeRefresh = view.findViewById(R.id.characters_swipe_refresh)
         errorLayout = view.findViewById(R.id.error_layout_container)
         emptyLayout = view.findViewById(R.id.empty_layout_container)
-        recyclerView.layoutManager = GridLayoutManager(context, 2)
+        recyclerView.layoutManager = GridLayoutManager(context, COLUMNS)
         recyclerView.adapter = charactersAdapter
         charactersAdapter.clear()
         errorLayout.visibility = View.GONE
@@ -102,8 +105,7 @@ class CharactersWidget(context: Context, attributeSet: AttributeSet) :
         recyclerView.addOnScrollListener(object : RecyclerView.OnScrollListener() {
             override fun onScrolled(recyclerView: RecyclerView, dx: Int, dy: Int) {
                 super.onScrolled(recyclerView, dx, dy)
-                if (!recyclerView.canScrollVertically(1) &&
-                    dy != 0 && !loadingMore && items.size > 0
+                if (!recyclerView.canScrollVertically(DIRECTION) && dy != IDLE && !loadingMore && items.isEmpty()
                 ) {
                     loadingMore = true
                     onLoadMore()
@@ -112,7 +114,7 @@ class CharactersWidget(context: Context, attributeSet: AttributeSet) :
         })
     }
 
-    fun getItemsCount() = items.size
+    fun isEmpty() = items.isEmpty()
 
     fun getItems() = items
 
@@ -127,12 +129,12 @@ class CharactersWidget(context: Context, attributeSet: AttributeSet) :
         errorLayout.visibility = View.VISIBLE
     }
 
-    fun onEmpty(){
+    fun onEmpty() {
         reset()
         emptyLayout.visibility = View.VISIBLE
     }
 
-    fun clearExceptionStates(){
+    private fun clearExceptionStates() {
         errorLayout.visibility = View.GONE
         emptyLayout.visibility = View.GONE
     }

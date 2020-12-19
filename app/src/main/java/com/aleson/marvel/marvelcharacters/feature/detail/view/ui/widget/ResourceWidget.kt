@@ -58,7 +58,7 @@ class ResourceWidget(context: Context, attributeSet: AttributeSet) :
     }
 
     private fun emptyState(){
-        if(items.size < 1){
+        if(items.isEmpty()){
             title.visibility = View.GONE
         }
     }

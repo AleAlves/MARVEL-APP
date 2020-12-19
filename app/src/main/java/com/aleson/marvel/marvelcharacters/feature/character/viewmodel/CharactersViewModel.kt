@@ -20,7 +20,7 @@ class CharactersViewModel(
     override fun setup() {
     }
 
-    fun fetch(name: String? = null, offset: Int? = 0) {
+    fun fetch(name: String? = null, offset: Int) {
         async {
             getCharactersUseCase.request = GetCharactersRequest(name = name, offset = offset)
             getCharactersUseCase.execute({ response ->
@@ -31,7 +31,7 @@ class CharactersViewModel(
         }
     }
 
-    fun search(name: String? = null, offset: Int? = 0) {
+    fun search(name: String? = null, offset: Int) {
         async {
             getCharactersUseCase.request =
                 GetCharactersRequest(name = name, offset = offset)

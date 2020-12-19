@@ -9,8 +9,7 @@ class SeriesTypeConverter {
     @TypeConverter
     fun fromString(comics: String?): Series? {
         if (comics == null) return null
-        val gson = Gson()
-        return gson.fromJson<Series>(
+        return Gson().fromJson<Series>(
             comics,
             Series::class.java
         )
@@ -19,7 +18,6 @@ class SeriesTypeConverter {
     @TypeConverter
     fun toString(comics: Series?): String? {
         if (comics == null) return null
-        val gson = Gson()
-        return gson.toJson(comics)
+        return Gson().toJson(comics)
     }
 }

@@ -15,8 +15,8 @@ class ApplicationSetup {
         const val NAME_START_WITH = "nameStartsWith"
         const val publicKey = "002326cdaa1631d23bfb6ada5a2d7515"
         const val privateKey = "12fdc64385ad40054f84c773588ee2e7c9f0d6af"
-        const val baseUrl = "https://gateway.marvel.com"
         const val digest = "MD5"
+        const val room = "database"
 
         class Values{
 
@@ -32,6 +32,15 @@ class ApplicationSetup {
             companion object {
 
                 const val sucess = 200
+            }
+        }
+
+        class API{
+
+            companion object {
+
+                const val baseUrl = "https://gateway.marvel.com"
+                const val characters = "/v1/public/characters"
             }
         }
 

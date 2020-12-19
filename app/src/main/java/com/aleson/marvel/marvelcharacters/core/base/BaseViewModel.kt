@@ -1,6 +1,5 @@
 package com.aleson.marvel.marvelcharacters.core.base
 
-import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.aleson.marvel.marvelcharacters.core.model.error.Exceptions
 import kotlinx.coroutines.*

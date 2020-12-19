@@ -25,7 +25,7 @@ class DetailsViewModel(
         async {
             getComicsMedia.request = GetComicsMediaRequest(uri.toString())
             getComicsMedia.execute({
-                onLoadMedia(it?.comics?.data?.results?.get(0)?.thumbnail)
+                onLoadMedia(it?.comics?.data?.results?.first()?.thumbnail)
             }, {
                 print(it?.message)
             })
