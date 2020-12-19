@@ -1,4 +1,4 @@
-package com.aleson.marvel.marvelcharacters.feature.detail.view.ui.custom
+package com.aleson.marvel.marvelcharacters.feature.detail.view.ui.widget
 
 import android.content.Context
 import android.util.AttributeSet
@@ -14,7 +14,7 @@ import com.aleson.marvel.marvelcharacters.core.model.character.Resource
 import com.aleson.marvel.marvelcharacters.core.ui.BaseRecyclerViewAdapter
 import com.aleson.marvel.marvelcharacters.feature.detail.view.ui.viewholder.DetailsViewHolder
 
-class ResourceView(context: Context, attributeSet: AttributeSet) :
+class ResourceWidget(context: Context, attributeSet: AttributeSet) :
     ConstraintLayout(context, attributeSet) {
 
     private var title: TextView

@@ -21,9 +21,9 @@ class DetailsViewModel(
     override fun setup() {
     }
 
-    fun getComicsMedia(id: String, onLoadMedia: (Image?) -> Unit) {
+    fun getComicsMedia(uri: String?, onLoadMedia: (Image?) -> Unit) {
         async {
-            getComicsMedia.request = GetComicsMediaRequest(id)
+            getComicsMedia.request = GetComicsMediaRequest(uri.toString())
             getComicsMedia.execute({
                 onLoadMedia(it?.comics?.data?.results?.get(0)?.thumbnail)
             }, {
@@ -32,11 +32,11 @@ class DetailsViewModel(
         }
     }
 
-    fun getSeriesMedia(id: String, onLoadMedia: (Image?) -> Unit) {
+    fun getSeriesMedia(uri: String?, onLoadMedia: (Image?) -> Unit) {
         async {
-            getSeriesMedia.request = GetSeriesMediaRequest(id)
-            getComicsMedia.execute({
-                onLoadMedia(it?.comics?.data?.results?.get(0)?.thumbnail)
+            getSeriesMedia.request = GetSeriesMediaRequest(uri)
+            getSeriesMedia.execute({
+                onLoadMedia(it?.series?.data?.results?.get(0)?.thumbnail)
             }, {
                 print(it?.message)
             })

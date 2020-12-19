@@ -8,7 +8,7 @@ interface CharactersDataSource : UpdateDataSource {
 
     fun getCharacters(
         request: GetCharactersRequest,
-        onResponse: (CharacterDataWrapper) -> Unit,
+        onResponse: (GetCharactersResponse) -> Unit,
         onError: (ErrorModel) -> Unit
     )
 

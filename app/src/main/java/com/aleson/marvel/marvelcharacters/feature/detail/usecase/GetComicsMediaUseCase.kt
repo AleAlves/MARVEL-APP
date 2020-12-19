@@ -7,7 +7,7 @@ import com.aleson.marvel.marvelcharacters.core.base.UseCaseResponse
 import com.aleson.marvel.marvelcharacters.core.model.comics.ComicsDataWrapper
 import com.aleson.marvel.marvelcharacters.feature.detail.repository.DetailsRepository
 
-class GetComicsMediaRequest(var id: String) : UseCaseRequest
+class GetComicsMediaRequest(var uri: String) : UseCaseRequest
 
 class GetComicsMediaResponse(val comics: ComicsDataWrapper) : UseCaseResponse
 
@@ -17,7 +17,7 @@ class GetComicsMediaUseCase(val repository: DetailsRepository) : BaseUseCase<Get
         onResponse: (GetComicsMediaResponse?) -> Unit,
         onError: (ErrorModel?) -> Unit
     ) {
-        repository.getComicsMedia(GetComicsMediaRequest( request.id), onResponse, onError)
+        repository.getComicsMedia(request, onResponse, onError)
     }
 
 }

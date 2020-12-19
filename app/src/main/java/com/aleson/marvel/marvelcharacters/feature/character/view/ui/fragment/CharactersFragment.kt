@@ -2,16 +2,20 @@ package com.aleson.marvel.marvelcharacters.feature.character.view.ui.fragment
 
 import android.text.InputType
 import android.view.View
+import android.widget.Button
 import android.widget.EditText
+import androidx.core.os.bundleOf
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
+import androidx.navigation.fragment.NavHostFragment
+import androidx.navigation.fragment.findNavController
 import com.aleson.marvel.marvelcharacters.R
 import com.aleson.marvel.marvelcharacters.core.base.BaseFragment
-import com.aleson.marvel.marvelcharacters.core.extension.generateOffset
+import com.aleson.marvel.marvelcharacters.core.extension.offsetSchema
 import com.aleson.marvel.marvelcharacters.core.model.character.Character
 import com.aleson.marvel.marvelcharacters.feature.character.di.CharactersInjector
 import com.aleson.marvel.marvelcharacters.feature.character.view.event.CharactersViewEvent
-import com.aleson.marvel.marvelcharacters.feature.character.view.ui.custom.CharactersView
+import com.aleson.marvel.marvelcharacters.feature.character.view.ui.widget.CharactersWidget
 import com.aleson.marvel.marvelcharacters.feature.character.viewmodel.CharactersViewModel
 
 
@@ -19,7 +23,7 @@ class CharactersFragment : BaseFragment() {
 
     private var offset: Int = 0
     private lateinit var viewModel: CharactersViewModel
-    private lateinit var charactersView: CharactersView
+    private lateinit var charactersWidget: CharactersWidget
     private lateinit var characterSearch: EditText
 
     override fun getFragmentTag() = "CharactersFragment"
@@ -27,14 +31,17 @@ class CharactersFragment : BaseFragment() {
     override fun getFragmentLayout() = R.layout.fragment_characters
 
     override fun onBindView(view: View) {
-        charactersView = view.findViewById(R.id.characters_view_recyclerview)
+        charactersWidget = view.findViewById(R.id.characters_view_recyclerview)
         characterSearch = view.findViewById(R.id.characters_edittext_search)
     }
 
     override fun setupView() {
         offset = 0
         characterSearch.inputType = InputType.TYPE_CLASS_TEXT
-        fetch()
+        if (charactersWidget.getItems().isEmpty()) {
+            charactersWidget.reset()
+            fetch()
+        }
     }
 
     override fun setupViewModel() {
@@ -44,24 +51,22 @@ class CharactersFragment : BaseFragment() {
     }
 
     override fun onClickListeners() {
-        charactersView.onItemSelected = {
-            listener.onDetails(it)
+        charactersWidget.onItemSelected = {
+            setNavigationController(it)
         }
 
-        charactersView.onFavorite = {
+        charactersWidget.onFavorite = {
             updateFavorite(it)
         }
 
-        charactersView.onRefresh = {
+        charactersWidget.onRefresh = {
             refresh()
         }
 
-        charactersView.onLoadMore = {
-            if (characterSearch.text.isNullOrEmpty()) {
-                generateOffset(offset) { offset ->
-                    this.offset = offset
-                    fetch()
-                }
+        charactersWidget.onLoadMore = {
+            offsetSchema(offset) { offset ->
+                this.offset = offset
+                fetch()
             }
         }
 
@@ -69,7 +74,6 @@ class CharactersFragment : BaseFragment() {
             var handled = false
             if (actionId == 5) {
                 offset = 0
-                charactersView.reset()
                 search()
                 handled = true
             }
@@ -79,6 +83,7 @@ class CharactersFragment : BaseFragment() {
 
     private fun search() {
         super.showLoading()
+        charactersWidget.reset()
         viewModel.search(name = characterSearch.text.toString(), offset = offset)
     }
 
@@ -90,7 +95,7 @@ class CharactersFragment : BaseFragment() {
     private fun refresh() {
         super.showLoading()
         offset = 0
-        charactersView.reset()
+        charactersWidget.reset()
         characterSearch.text.clear()
         viewModel.fetch()
     }
@@ -104,7 +109,7 @@ class CharactersFragment : BaseFragment() {
                 is CharactersViewEvent.OnLoadMoreCharacters -> {
                     onLoadMoreCharacters(it.characters?.data?.results)
                 }
-                is CharactersViewEvent.OnFavoriteUpdated -> charactersView.updateFavoriteItem(it.character)
+                is CharactersViewEvent.OnFavoriteUpdated -> charactersWidget.updateFavoriteItem(it.character)
                 is CharactersViewEvent.OnError -> {
                     onError(it.error)
                 }
@@ -115,27 +120,28 @@ class CharactersFragment : BaseFragment() {
 
     private fun onError(message: String?) {
         super.showToast(context, message)
-        if(charactersView.getItemsCount() == 0){
-            charactersView.onError()
+        if (charactersWidget.getItemsCount() == 0) {
+            charactersWidget.onError()
         }
     }
 
     private fun onLoadMoreCharacters(characters: ArrayList<Character>?) {
-        charactersView.addAll(characters)
+        charactersWidget.addAll(characters)
+        onBindFavorites()
         super.hideLoading()
     }
 
     private fun onLoadSearchResult(characters: ArrayList<Character>?) {
         super.hideLoading()
-        charactersView.addAll(characters)
-        onLoadFavorites(characters)
+        charactersWidget.addAll(characters)
+        onBindFavorites()
     }
 
-    private fun onLoadFavorites(results: ArrayList<Character>?) {
-        results?.map { character ->
-            viewModel.getFavoriteStatus(character.id) { isFavorite ->
-                character.favorite = isFavorite as Boolean
-                charactersView.notifyDataChange()
+    private fun onBindFavorites() {
+        charactersWidget.getItems().map { itemView ->
+            viewModel.getFavoriteStatus(itemView.data.id) { isFavorite ->
+                itemView.data.favorite = isFavorite as Boolean
+                charactersWidget.notifyDataChange()
             }
         }
     }
@@ -143,4 +149,10 @@ class CharactersFragment : BaseFragment() {
     private fun updateFavorite(character: Character) {
         viewModel.updateFavorite(character)
     }
+
+    private fun setNavigationController(character: Character) {
+        val bundle = bundleOf("character" to character)
+        findNavController().navigate(R.id.action_homeFragment_to_detailFragment, bundle)
+    }
+
 }

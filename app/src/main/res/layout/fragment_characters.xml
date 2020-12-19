@@ -13,6 +13,8 @@
         android:layout_marginTop="@dimen/size_8dp"
         android:layout_marginEnd="@dimen/size_30dp"
         android:padding="@dimen/size_8dp"
+        app:hintAnimationEnabled="false"
+        app:hintEnabled="false"
         app:layout_constraintTop_toTopOf="parent"
         app:startIconDrawable="@drawable/ic_baseline_search_24">
 
@@ -21,11 +23,13 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:maxLines="1"
+            android:hint="@string/label_characters_search_hint"
+            app:hintAnimationEnabled="false"
             android:background="@drawable/editext_itemview_background"
             android:textSize="@dimen/font_10sp" />
     </com.google.android.material.textfield.TextInputLayout>
 
-    <com.aleson.marvel.marvelcharacters.feature.character.view.ui.custom.CharactersView
+    <com.aleson.marvel.marvelcharacters.feature.character.view.ui.widget.CharactersWidget
         android:id="@+id/characters_view_recyclerview"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"

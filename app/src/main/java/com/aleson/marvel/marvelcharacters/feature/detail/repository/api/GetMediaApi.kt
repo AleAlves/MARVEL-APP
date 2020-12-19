@@ -6,25 +6,19 @@ import retrofit2.Call
 import retrofit2.http.GET
 import retrofit2.http.Path
 import retrofit2.http.Query
+import retrofit2.http.Url
 
 
 interface GetMediaApi {
 
-    @GET("/v1/public/comics/{id}")
+    @GET
     fun getComicsMedia(
-        @Path("id") path: String,
-        @Query("ts") ts: String,
-        @Query("apikey") publicApiKey: String,
-        @Query("hash") hash: String
+        @Url url: String
     ): Call<ComicsDataWrapper>
 
-    @GET("/v1/public/series/{id}")
+    @GET
     fun getSeriesMedia(
-        @Path("id") path: String,
-        @Query("ts") ts: String,
-        @Query("apikey") publicApiKey: String,
-        @Query("hash") hash: String,
-        @Query("limit") limit: String = "100"
+        @Url url: String
     ): Call<SeriesDataWrapper>
 
 }

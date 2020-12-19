@@ -11,7 +11,7 @@ import com.bumptech.glide.request.RequestOptions
 
 fun loadImageFromUrl(context: Context, image: Image?, imageView: ImageView, placeHolder: Int){
     var requestOptions = RequestOptions()
-    requestOptions = requestOptions.transforms(CenterCrop(), RoundedCorners(5))
+    requestOptions = requestOptions.transforms(CenterCrop(), RoundedCorners(10))
     Glide.with(context).applyDefaultRequestOptions(
         requestOptions
         .placeholder(placeHolder))

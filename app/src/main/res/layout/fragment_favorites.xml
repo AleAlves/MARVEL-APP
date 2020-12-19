@@ -5,7 +5,7 @@
     android:layout_height="wrap_content"
     android:paddingBottom="@dimen/size_100dp">
 
-    <com.aleson.marvel.marvelcharacters.feature.character.view.ui.custom.CharactersView
+    <com.aleson.marvel.marvelcharacters.feature.character.view.ui.widget.CharactersWidget
         android:id="@+id/characters_view_recyclerview"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"

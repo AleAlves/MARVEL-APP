@@ -1,10 +1,9 @@
-package com.aleson.marvel.marvelcharacters.feature.character.view.ui.custom
+package com.aleson.marvel.marvelcharacters.feature.character.view.ui.widget
 
 import android.content.Context
 import android.util.AttributeSet
 import android.view.LayoutInflater
 import android.view.View
-import android.widget.ProgressBar
 import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.RecyclerView
@@ -16,7 +15,7 @@ import com.aleson.marvel.marvelcharacters.core.ui.BaseRecyclerViewAdapter
 import com.aleson.marvel.marvelcharacters.feature.character.view.ui.viewholder.CharacterViewHolder
 
 
-class CharactersView(context: Context, attributeSet: AttributeSet) :
+class CharactersWidget(context: Context, attributeSet: AttributeSet) :
     ConstraintLayout(context, attributeSet) {
 
     private var recyclerView: RecyclerView
@@ -114,6 +113,8 @@ class CharactersView(context: Context, attributeSet: AttributeSet) :
     }
 
     fun getItemsCount() = items.size
+
+    fun getItems() = items
 
     fun reset() {
         items.clear()

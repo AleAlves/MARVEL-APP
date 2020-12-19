@@ -30,7 +30,7 @@ class CharacterViewHolder<T>(
 
     override fun bind(data: T, position: Int) {
         (data as ViewItem<Character>)
-        name.text = position.toString()
+        name.text = data.data.name
         loadImageFromUrl(context as Context, data.data.thumbnail, image, R.drawable.placeholder)
         item.setOnClickListener {
             onItemSelected(data.data)

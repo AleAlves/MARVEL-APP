@@ -1,13 +1,18 @@
 package com.aleson.marvel.marvelcharacters.feature.detail.repository.data
 
+import android.net.Uri
 import br.com.connector.aleson.android.connector.Connector
+import com.aleson.marvel.marvelcharacters.core.ApplicationSetup
+import com.aleson.marvel.marvelcharacters.core.ApplicationSetup.Companion.HTTP.Companion.sucess
+import com.aleson.marvel.marvelcharacters.core.ApplicationSetup.Companion.Values.Companion.limit
+import com.aleson.marvel.marvelcharacters.core.ApplicationSetup.Companion.Values.Companion.order
 import com.aleson.marvel.marvelcharacters.core.model.error.ErrorModel
 import com.aleson.marvel.marvelcharacters.core.model.comics.ComicsDataWrapper
 import com.aleson.marvel.marvelcharacters.core.model.series.SeriesDataWrapper
 import com.aleson.marvel.marvelcharacters.core.extension.generateHash
 import com.aleson.marvel.marvelcharacters.core.extension.getTimeStamp
 import com.aleson.marvel.marvelcharacters.core.room.dao.RoomLocalDataBase
-import com.aleson.marvel.marvelcharacters.core.ui.GeneralSetup.Companion.publicKey
+import com.aleson.marvel.marvelcharacters.core.ApplicationSetup.Companion.publicKey
 import com.aleson.marvel.marvelcharacters.feature.character.usecase.UpdateFavoriteRequest
 import com.aleson.marvel.marvelcharacters.feature.character.usecase.UpdateFavoriteResponse
 import com.aleson.marvel.marvelcharacters.feature.detail.repository.api.GetMediaApi
@@ -44,14 +49,12 @@ class DetailsDataSourceImpl(var database: RoomLocalDataBase?) :
         }
 
         val timeStamp = getTimeStamp()
+        val url = Uri.parse(request.uri).buildUpon()
+            .appendQueryParameter(ApplicationSetup.HASH, generateHash(timeStamp))
+            .appendQueryParameter(ApplicationSetup.TIME_STAMP, timeStamp)
+            .appendQueryParameter(ApplicationSetup.API_KEY, publicKey).toString()
 
-        Connector.request().create(GetMediaApi::class.java)
-            .getComicsMedia(
-                request.id,
-                timeStamp,
-                publicKey,
-                generateHash(timeStamp)
-            ).enqueue(call)
+        Connector.request().create(GetMediaApi::class.java).getComicsMedia(url).enqueue(call)
     }
 
     override fun getSeriesMedia(
@@ -68,23 +71,21 @@ class DetailsDataSourceImpl(var database: RoomLocalDataBase?) :
                 call: Call<SeriesDataWrapper?>,
                 response: Response<SeriesDataWrapper?>
             ) {
-                if (response.body() == null || response.code() != 200) {
+                if (response.body() == null || response.code() != sucess) {
                     onError(ErrorModel(response.message()))
                 } else {
-                    onResponse(GetSeriesMediaResponse(response.body() as ComicsDataWrapper))
+                    onResponse(GetSeriesMediaResponse(response.body() as SeriesDataWrapper))
                 }
             }
         }
 
         val timeStamp = getTimeStamp()
+        val url = Uri.parse(request.uri).buildUpon()
+            .appendQueryParameter(ApplicationSetup.HASH, generateHash(timeStamp))
+            .appendQueryParameter(ApplicationSetup.TIME_STAMP, timeStamp)
+            .appendQueryParameter(ApplicationSetup.API_KEY, publicKey).toString()
 
-        Connector.request().create(GetMediaApi::class.java)
-            .getSeriesMedia(
-                request.id,
-                timeStamp,
-                publicKey,
-                generateHash(timeStamp)
-            ).enqueue(call)
+        Connector.request().create(GetMediaApi::class.java).getSeriesMedia(url).enqueue(call)
     }
 
     override fun updateFavorite(

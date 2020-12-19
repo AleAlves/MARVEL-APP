@@ -5,6 +5,7 @@
     <string name="label_favorites_header_title">Favorites</string>
     <string name="label_details_title_comics">Comics</string>
     <string name="label_details_title_series">Series</string>
+    <string name="label_characters_search_hint">Find a character by its name</string>
     <string name="label_generic_error_message">Sorry, something went wrong....try again later</string>
     <string name="label_generic_empty_message">Nothing around here yet...</string>
 </resources>

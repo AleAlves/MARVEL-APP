@@ -22,8 +22,7 @@ class CharactersViewModel(
 
     fun fetch(name: String? = null, offset: Int? = 0) {
         async {
-            getCharactersUseCase.request =
-                GetCharactersRequest(limite = "20", orderBy = "name", name = name, offset = offset)
+            getCharactersUseCase.request = GetCharactersRequest(name = name, offset = offset)
             getCharactersUseCase.execute({ response ->
                 events.value = CharactersViewEvent.OnLoadMoreCharacters(response?.characters)
             }, {
@@ -35,7 +34,7 @@ class CharactersViewModel(
     fun search(name: String? = null, offset: Int? = 0) {
         async {
             getCharactersUseCase.request =
-                GetCharactersRequest(limite = "20", orderBy = "name", name = name, offset = offset)
+                GetCharactersRequest(name = name, offset = offset)
             getCharactersUseCase.execute({ response ->
                 events.value = CharactersViewEvent.OnLoadSearch(response?.characters)
             }, {

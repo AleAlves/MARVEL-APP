@@ -37,7 +37,8 @@ abstract class BaseFragment : BaseDialogFragment() {
     abstract fun oberserverEvent()
 
     interface OnFragmentEventsListener {
-        fun onDetails(it: Character)
+//        fun onDetails(it: Character)
+//        fun onUpdate()
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -63,6 +64,15 @@ abstract class BaseFragment : BaseDialogFragment() {
     override fun onAttach(context: Context) {
         super.onAttach(context)
         listener = context as OnFragmentEventsListener
+    }
+
+    override fun onViewStateRestored(savedInstanceState: Bundle?) {
+        super.onViewStateRestored(savedInstanceState)
+    }
+
+    override fun onDetach() {
+        super.onDetach()
+        parentFragment?.onResume()
     }
 
     fun showToast(context: Context?, string: String?) {

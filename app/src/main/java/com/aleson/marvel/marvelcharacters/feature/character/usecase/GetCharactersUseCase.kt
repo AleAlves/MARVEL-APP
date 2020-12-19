@@ -1,5 +1,7 @@
 package com.aleson.marvel.marvelcharacters.feature.character.usecase
 
+import com.aleson.marvel.marvelcharacters.core.ApplicationSetup.Companion.Values.Companion.limit
+import com.aleson.marvel.marvelcharacters.core.ApplicationSetup.Companion.Values.Companion.order
 import com.aleson.marvel.marvelcharacters.core.base.BaseUseCase
 import com.aleson.marvel.marvelcharacters.core.base.UseCaseRequest
 import com.aleson.marvel.marvelcharacters.core.base.UseCaseResponse
@@ -9,8 +11,8 @@ import com.aleson.marvel.marvelcharacters.feature.character.repository.Character
 
 
 class GetCharactersRequest(
-    var limite: String,
-    var orderBy: String,
+    var limite: String = limit.toString(),
+    var orderBy: String = order,
     var name: String?,
     var offset: Int? = 0
 ) :
@@ -27,7 +29,7 @@ class GetCharactersUseCase(private val repository: CharactersRepository) :
     ) {
         repository.getCharacters(
             super.request,
-            { response -> onResponse(GetCharactersResponse(response)) },
+            { response -> onResponse(response) },
             { onError(it) })
     }
 }
