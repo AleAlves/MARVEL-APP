@@ -31,7 +31,7 @@ class ApplicationSetup {
 
             companion object {
 
-                const val sucess = 200
+                const val success = 200
             }
         }
 

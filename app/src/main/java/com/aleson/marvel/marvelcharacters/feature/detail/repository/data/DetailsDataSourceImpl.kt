@@ -3,9 +3,6 @@ package com.aleson.marvel.marvelcharacters.feature.detail.repository.data
 import android.net.Uri
 import br.com.connector.aleson.android.connector.Connector
 import com.aleson.marvel.marvelcharacters.core.ApplicationSetup
-import com.aleson.marvel.marvelcharacters.core.ApplicationSetup.Companion.HTTP.Companion.sucess
-import com.aleson.marvel.marvelcharacters.core.ApplicationSetup.Companion.Values.Companion.limit
-import com.aleson.marvel.marvelcharacters.core.ApplicationSetup.Companion.Values.Companion.order
 import com.aleson.marvel.marvelcharacters.core.model.error.ErrorModel
 import com.aleson.marvel.marvelcharacters.core.model.comics.ComicsDataWrapper
 import com.aleson.marvel.marvelcharacters.core.model.series.SeriesDataWrapper
@@ -13,13 +10,11 @@ import com.aleson.marvel.marvelcharacters.core.extension.generateHash
 import com.aleson.marvel.marvelcharacters.core.extension.getTimeStamp
 import com.aleson.marvel.marvelcharacters.core.room.dao.RoomLocalDataBase
 import com.aleson.marvel.marvelcharacters.core.ApplicationSetup.Companion.publicKey
+import com.aleson.marvel.marvelcharacters.core.helper.ConnectorHelper
 import com.aleson.marvel.marvelcharacters.feature.character.usecase.UpdateFavoriteRequest
 import com.aleson.marvel.marvelcharacters.feature.character.usecase.UpdateFavoriteResponse
 import com.aleson.marvel.marvelcharacters.feature.detail.repository.api.GetMediaApi
 import com.aleson.marvel.marvelcharacters.feature.detail.usecase.*
-import retrofit2.Call
-import retrofit2.Callback
-import retrofit2.Response
 import java.lang.Exception
 
 class DetailsDataSourceImpl(var database: RoomLocalDataBase?) :
@@ -31,30 +26,22 @@ class DetailsDataSourceImpl(var database: RoomLocalDataBase?) :
         onError: (ErrorModel) -> Unit
     ) {
 
-        val call = object : Callback<ComicsDataWrapper?> {
-            override fun onFailure(call: Call<ComicsDataWrapper?>, t: Throwable) {
-                onError(ErrorModel(t.toString()))
-            }
-
-            override fun onResponse(
-                call: Call<ComicsDataWrapper?>,
-                response: Response<ComicsDataWrapper?>
-            ) {
-                if (response.body() == null || response.code() != sucess) {
-                    onError(ErrorModel(response.message()))
-                } else {
-                    onResponse(GetComicsMediaResponse(response.body() as ComicsDataWrapper))
-                }
-            }
-        }
-
         val timeStamp = getTimeStamp()
         val url = Uri.parse(request.uri).buildUpon()
             .appendQueryParameter(ApplicationSetup.HASH, generateHash(timeStamp))
             .appendQueryParameter(ApplicationSetup.TIME_STAMP, timeStamp)
             .appendQueryParameter(ApplicationSetup.API_KEY, publicKey).toString()
 
-        Connector.request().create(GetMediaApi::class.java).getComicsMedia(url).enqueue(call)
+        val caller = Connector.request().create(GetMediaApi::class.java).getComicsMedia(url)
+
+        ConnectorHelper<ComicsDataWrapper>()
+            .doCall(
+                caller,
+                onError,
+                {
+                    onResponse(GetComicsMediaResponse(it))
+                }
+            )
     }
 
     override fun getSeriesMedia(
@@ -62,30 +49,22 @@ class DetailsDataSourceImpl(var database: RoomLocalDataBase?) :
         onResponse: (GetSeriesMediaResponse) -> Unit,
         onError: (ErrorModel) -> Unit
     ) {
-        val call = object : Callback<SeriesDataWrapper?> {
-            override fun onFailure(call: Call<SeriesDataWrapper?>, t: Throwable) {
-                onError(ErrorModel(t.toString()))
-            }
-
-            override fun onResponse(
-                call: Call<SeriesDataWrapper?>,
-                response: Response<SeriesDataWrapper?>
-            ) {
-                if (response.body() == null || response.code() != sucess) {
-                    onError(ErrorModel(response.message()))
-                } else {
-                    onResponse(GetSeriesMediaResponse(response.body() as SeriesDataWrapper))
-                }
-            }
-        }
-
         val timeStamp = getTimeStamp()
         val url = Uri.parse(request.uri).buildUpon()
             .appendQueryParameter(ApplicationSetup.HASH, generateHash(timeStamp))
             .appendQueryParameter(ApplicationSetup.TIME_STAMP, timeStamp)
             .appendQueryParameter(ApplicationSetup.API_KEY, publicKey).toString()
 
-        Connector.request().create(GetMediaApi::class.java).getSeriesMedia(url).enqueue(call)
+        val caller = Connector.request().create(GetMediaApi::class.java).getSeriesMedia(url)
+
+        ConnectorHelper<SeriesDataWrapper>()
+            .doCall(
+                caller,
+                onError,
+                {
+                    GetSeriesMediaResponse(it)
+                }
+            )
     }
 
     override fun updateFavorite(

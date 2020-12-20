@@ -9,19 +9,16 @@ import com.aleson.marvel.marvelcharacters.core.model.error.ErrorModel
 import com.aleson.marvel.marvelcharacters.core.room.dao.RoomLocalDataBase
 import com.aleson.marvel.marvelcharacters.core.ApplicationSetup.Companion.API_KEY
 import com.aleson.marvel.marvelcharacters.core.ApplicationSetup.Companion.HASH
-import com.aleson.marvel.marvelcharacters.core.ApplicationSetup.Companion.HTTP.Companion.sucess
 import com.aleson.marvel.marvelcharacters.core.ApplicationSetup.Companion.LIMIT
 import com.aleson.marvel.marvelcharacters.core.ApplicationSetup.Companion.NAME_START_WITH
 import com.aleson.marvel.marvelcharacters.core.ApplicationSetup.Companion.OFFSET
 import com.aleson.marvel.marvelcharacters.core.ApplicationSetup.Companion.ORDER_BY
 import com.aleson.marvel.marvelcharacters.core.ApplicationSetup.Companion.TIME_STAMP
 import com.aleson.marvel.marvelcharacters.core.ApplicationSetup.Companion.publicKey
+import com.aleson.marvel.marvelcharacters.core.helper.ConnectorHelper
 import com.aleson.marvel.marvelcharacters.core.extension.getTimeStamp
 import com.aleson.marvel.marvelcharacters.feature.character.repository.api.GetCharactersApi
 import com.aleson.marvel.marvelcharacters.feature.character.usecase.*
-import retrofit2.Call
-import retrofit2.Callback
-import retrofit2.Response
 
 
 class CharactersDataSourceImpl(var database: RoomLocalDataBase?) : CharactersDataSource {
@@ -32,24 +29,8 @@ class CharactersDataSourceImpl(var database: RoomLocalDataBase?) : CharactersDat
         onError: (ErrorModel) -> Unit
     ) {
 
-        val call = object : Callback<CharacterDataWrapper?> {
-            override fun onFailure(call: Call<CharacterDataWrapper?>, t: Throwable) {
-                onError(ErrorModel(t.toString()))
-            }
-
-            override fun onResponse(
-                call: Call<CharacterDataWrapper?>,
-                response: Response<CharacterDataWrapper?>
-            ) {
-                if (response.body() == null || response.code() != sucess) {
-                    onError(ErrorModel(response.message()))
-                } else {
-                    onResponse(GetCharactersResponse(response.body() as CharacterDataWrapper))
-                }
-            }
-        }
-
         val timeStamp = getTimeStamp()
+
         val url = Uri.parse(characters).buildUpon()
             .appendQueryParameter(HASH, generateHash(timeStamp))
             .appendQueryParameter(OFFSET, request.offset.toString())
@@ -62,8 +43,17 @@ class CharactersDataSourceImpl(var database: RoomLocalDataBase?) : CharactersDat
             url.appendQueryParameter(NAME_START_WITH, request.name)
         }
 
-        Connector.request().create(GetCharactersApi::class.java)
-            .getCharacters(url.build().toString()).enqueue(call)
+        val caller = Connector.request().create(GetCharactersApi::class.java)
+            .getCharacters(url.build().toString())
+
+        ConnectorHelper<CharacterDataWrapper>()
+            .doCall(
+                caller,
+                onError,
+                {
+                    onResponse(GetCharactersResponse(it))
+                }
+            )
     }
 
     override fun updateFavorite(
