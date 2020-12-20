@@ -33,8 +33,6 @@ class CharactersWidget(context: Context, attributeSet: AttributeSet) :
     lateinit var onRefresh: () -> Unit
     var onLoadMore: () -> Unit = {}
 
-    private val items: MutableList<ViewItem<Character>> = mutableListOf()
-
     private var view: View = LayoutInflater.from(context).inflate(
         R.layout.character_list_view,
         this,
@@ -63,11 +61,11 @@ class CharactersWidget(context: Context, attributeSet: AttributeSet) :
         emptySearchLayout = view.findViewById(R.id.empty_search_layout_container)
         recyclerView.layoutManager = GridLayoutManager(context, COLUMNS)
         recyclerView.adapter = charactersAdapter
+        charactersAdapter.listItems.clear()
         charactersAdapter.clear()
         errorLayout.visibility = View.GONE
         emptyLayout.visibility = View.GONE
         emptySearchLayout.visibility = View.GONE
-        items.clear()
         onSwipeListener()
         onScrollListener()
     }
@@ -75,21 +73,20 @@ class CharactersWidget(context: Context, attributeSet: AttributeSet) :
     fun addAll(
         characters: List<Character>?
     ) {
-        clearExceptionStates()
         charactersAdapter.clear()
-        characters?.forEach { character -> items.add(ViewItem(character)) }
-        charactersAdapter.add(items)
+        charactersAdapter.listItems.clear()
+        characters?.forEach { character -> charactersAdapter.add(ViewItem(character)) }
         notifyDataChange()
         loadingMore = false
     }
 
     fun updateFavoriteItem(character: Character) {
-        items.map { itemView ->
+        charactersAdapter.listItems.map { itemView ->
             if (itemView.data.id == character.id) {
                 itemView.data.favorite = character.favorite
             }
         }
-        charactersAdapter.notifyDataSetChanged()
+        notifyDataChange()
     }
 
     fun notifyDataChange() {
@@ -108,7 +105,7 @@ class CharactersWidget(context: Context, attributeSet: AttributeSet) :
         recyclerView.addOnScrollListener(object : RecyclerView.OnScrollListener() {
             override fun onScrolled(recyclerView: RecyclerView, dx: Int, dy: Int) {
                 super.onScrolled(recyclerView, dx, dy)
-                if (!recyclerView.canScrollVertically(DIRECTION) && dy != IDLE && !loadingMore && items.isNotEmpty()
+                if (!recyclerView.canScrollVertically(DIRECTION) && dy != IDLE && !loadingMore && charactersAdapter.listItems.isNotEmpty()
                 ) {
                     loadingMore = true
                     onLoadMore()
@@ -117,12 +114,12 @@ class CharactersWidget(context: Context, attributeSet: AttributeSet) :
         })
     }
 
-    fun isEmpty() = items.isEmpty()
+    fun isEmpty() = charactersAdapter.listItems.isEmpty()
 
-    fun getItems() = items
+    fun getItems() = charactersAdapter.listItems
 
     fun reset() {
-        items.clear()
+        charactersAdapter.listItems.clear()
         charactersAdapter.clear()
         clearExceptionStates()
         notifyDataChange()

@@ -11,8 +11,6 @@ abstract class BaseViewModel<ViewEvent> : ViewModel(), CoroutineScope {
     private val viewModelJob = SupervisorJob()
     override val coroutineContext: CoroutineContext = Dispatchers.Main + viewModelJob
 
-    abstract fun setup()
-
     abstract fun onError(message: String?)
 
     override fun onCleared() {

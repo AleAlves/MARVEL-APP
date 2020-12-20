@@ -18,9 +18,6 @@ class DetailsViewModel(
 
     var events = MutableLiveData<DetailsViewEvent>()
 
-    override fun setup() {
-    }
-
     fun getComicsMedia(uri: String?, onLoadMedia: (Image?) -> Unit) {
         async {
             getComicsMedia.request = GetComicsMediaRequest(uri.toString())

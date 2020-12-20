@@ -7,12 +7,8 @@ import androidx.recyclerview.widget.RecyclerView
 
 abstract class BaseRecyclerViewAdapter<T> : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
 
-    var listItems: MutableList<T>
+    var listItems: MutableList<T> = mutableListOf()
     private lateinit var viewHolder: RecyclerView.ViewHolder
-
-    init {
-        listItems = mutableListOf()
-    }
 
     override fun onCreateViewHolder(
         parent: ViewGroup,
@@ -42,7 +38,7 @@ abstract class BaseRecyclerViewAdapter<T> : RecyclerView.Adapter<RecyclerView.Vi
     abstract fun getViewHolder(view: View, viewType: Int): RecyclerView.ViewHolder
 
     fun clear() {
-        listItems = mutableListOf()
+        listItems.clear()
     }
 
     fun add(newItems: List<T>) {
@@ -50,7 +46,8 @@ abstract class BaseRecyclerViewAdapter<T> : RecyclerView.Adapter<RecyclerView.Vi
     }
 
     fun add(newItem: T) {
-        addAndNotify(mutableListOf(newItem))
+        listItems.add(newItem)
+        this.notifyDataSetChanged()
     }
 
     private fun addAndNotify(newItems: List<T>) {

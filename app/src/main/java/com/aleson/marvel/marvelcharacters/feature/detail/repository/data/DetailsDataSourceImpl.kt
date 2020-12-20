@@ -55,7 +55,7 @@ class DetailsDataSourceImpl(val context: Context?, val database: RoomLocalDataBa
 
         ConnectorHelper<SeriesDataWrapper>().doCall(context, caller, onError)
         {
-            GetSeriesMediaResponse(it)
+            onResponse(GetSeriesMediaResponse(it))
         }
     }
 

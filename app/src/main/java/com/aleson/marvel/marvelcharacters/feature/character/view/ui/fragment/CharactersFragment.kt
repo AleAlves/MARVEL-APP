@@ -1,5 +1,6 @@
 package com.aleson.marvel.marvelcharacters.feature.character.view.ui.fragment
 
+import android.os.Bundle
 import android.text.InputType
 import android.view.View
 import android.widget.EditText
@@ -15,6 +16,7 @@ import com.aleson.marvel.marvelcharacters.feature.character.di.CharactersInjecto
 import com.aleson.marvel.marvelcharacters.feature.character.view.event.CharactersViewEvent
 import com.aleson.marvel.marvelcharacters.feature.character.view.ui.widget.CharactersWidget
 import com.aleson.marvel.marvelcharacters.feature.character.viewmodel.CharactersViewModel
+
 
 private const val ENTER = 5
 private const val ARG_CHARACTER = "character"
@@ -39,9 +41,10 @@ class CharactersFragment : BaseFragment() {
     override fun setupView() {
         offset = 0
         characterSearch.inputType = InputType.TYPE_CLASS_TEXT
-        if (charactersWidget.getItems().isEmpty()) {
-            charactersWidget.reset()
+        if (viewModel.characters.isEmpty()) {
             fetch()
+        } else {
+            onLoadMoreCharacters(viewModel.characters)
         }
     }
 
@@ -67,7 +70,7 @@ class CharactersFragment : BaseFragment() {
         charactersWidget.onLoadMore = {
             offsetSchema(offset) { offset ->
                 this.offset = offset
-                fetch()
+                fetchMore()
             }
         }
 
@@ -85,10 +88,16 @@ class CharactersFragment : BaseFragment() {
     private fun search() {
         super.showLoading()
         charactersWidget.reset()
+        viewModel.characters.clear()
         viewModel.search(name = characterSearch.text.toString(), offset = offset)
     }
 
     private fun fetch() {
+        super.showLoading()
+        viewModel.fetch(name = characterSearch.text.toString(), offset = offset)
+    }
+
+    private fun fetchMore() {
         super.showLoading()
         viewModel.fetch(name = characterSearch.text.toString(), offset = offset)
     }
@@ -98,27 +107,8 @@ class CharactersFragment : BaseFragment() {
         offset = INITIAL_OFFSET
         charactersWidget.reset()
         characterSearch.text.clear()
+        viewModel.characters.clear()
         viewModel.fetch(offset = INITIAL_OFFSET)
-    }
-
-    override fun oberserverEvent() {
-        this.viewModel.events.observe(this, Observer {
-            when (it) {
-                is CharactersViewEvent.OnLoadSearch -> {
-                    onLoadSearchResult(it.characters?.data?.results)
-                }
-                is CharactersViewEvent.OnLoadMoreCharacters -> {
-                    onLoadMoreCharacters(it.characters?.data?.results)
-                }
-                is CharactersViewEvent.OnFavoriteUpdated -> {
-                    charactersWidget.updateFavoriteItem(it.character)
-                }
-                is CharactersViewEvent.OnError -> {
-                    onError(it.error)
-                }
-                else -> showToast(context, getString(R.string.label_generic_error_message))
-            }
-        })
     }
 
     private fun onError(message: String?) {
@@ -128,7 +118,7 @@ class CharactersFragment : BaseFragment() {
         }
     }
 
-    private fun onLoadMoreCharacters(characters: ArrayList<Character>?) {
+    private fun onLoadMoreCharacters(characters: MutableList<Character>) {
         charactersWidget.addAll(characters)
         onBindFavorites()
         super.hideLoading()
@@ -136,6 +126,7 @@ class CharactersFragment : BaseFragment() {
 
     private fun onLoadSearchResult(characters: ArrayList<Character>?) {
         super.hideLoading()
+        charactersWidget.reset()
         val empty = characters?.isEmpty()
         if (empty != null && empty) {
             charactersWidget.onEmptySearch()
@@ -161,6 +152,26 @@ class CharactersFragment : BaseFragment() {
     private fun setNavigationController(character: Character) {
         val bundle = bundleOf(ARG_CHARACTER to character)
         findNavController().navigate(R.id.action_homeFragment_to_detailFragment, bundle)
+    }
+
+    override fun oberserverEvent() {
+        this.viewModel.events.observe(this, Observer {
+            when (it) {
+                is CharactersViewEvent.OnLoadSearch -> {
+                    onLoadSearchResult(it.characters?.data?.results)
+                }
+                is CharactersViewEvent.OnLoadMoreCharacters -> {
+                    onLoadMoreCharacters(it.characters)
+                }
+                is CharactersViewEvent.OnFavoriteUpdated -> {
+                    charactersWidget.updateFavoriteItem(it.character)
+                }
+                is CharactersViewEvent.OnError -> {
+                    onError(it.error)
+                }
+                else -> showToast(context, getString(R.string.label_generic_error_message))
+            }
+        })
     }
 
 }

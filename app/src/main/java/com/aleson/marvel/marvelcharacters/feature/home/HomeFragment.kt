@@ -88,5 +88,4 @@ class HomeFragment : BaseFragment() {
     override fun oberserverEvent() {
     }
 
-
 }

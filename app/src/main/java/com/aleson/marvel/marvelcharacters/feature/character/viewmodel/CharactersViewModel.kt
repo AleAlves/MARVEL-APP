@@ -2,7 +2,9 @@ package com.aleson.marvel.marvelcharacters.feature.character.viewmodel
 
 import androidx.lifecycle.MutableLiveData
 import com.aleson.marvel.marvelcharacters.core.base.BaseViewModel
+import com.aleson.marvel.marvelcharacters.core.base.ViewItem
 import com.aleson.marvel.marvelcharacters.core.model.character.Character
+import com.aleson.marvel.marvelcharacters.core.model.character.Resource
 import com.aleson.marvel.marvelcharacters.feature.character.usecase.*
 import com.aleson.marvel.marvelcharacters.feature.character.view.event.CharactersViewEvent
 
@@ -15,16 +17,18 @@ class CharactersViewModel(
 
     BaseViewModel<CharactersViewEvent>() {
 
-    var events = MutableLiveData<CharactersViewEvent>()
+    var characters: MutableList<Character> = mutableListOf()
 
-    override fun setup() {
-    }
+    var events = MutableLiveData<CharactersViewEvent>()
 
     fun fetch(name: String? = null, offset: Int) {
         async {
             getCharactersUseCase.request = GetCharactersRequest(name = name, offset = offset)
             getCharactersUseCase.execute({ response ->
-                events.value = CharactersViewEvent.OnLoadMoreCharacters(response?.characters)
+                response?.characters?.data?.results?.map {
+                    characters.add(it)
+                }
+                events.value = CharactersViewEvent.OnLoadMoreCharacters(characters)
             }, {
                 onError(it?.message)
             })
@@ -36,6 +40,9 @@ class CharactersViewModel(
             getCharactersUseCase.request =
                 GetCharactersRequest(name = name, offset = offset)
             getCharactersUseCase.execute({ response ->
+                response?.characters?.data?.results?.map {
+                    characters.add(it)
+                }
                 events.value = CharactersViewEvent.OnLoadSearch(response?.characters)
             }, {
                 onError(it?.message)
