@@ -17,6 +17,7 @@ import com.aleson.marvel.marvelcharacters.core.ApplicationSetup.Companion.TIME_S
 import com.aleson.marvel.marvelcharacters.core.ApplicationSetup.Companion.publicKey
 import com.aleson.marvel.marvelcharacters.core.helper.ConnectorHelper
 import com.aleson.marvel.marvelcharacters.core.extension.getTimeStamp
+import com.aleson.marvel.marvelcharacters.core.helper.RoomHelper
 import com.aleson.marvel.marvelcharacters.feature.character.repository.api.GetCharactersApi
 import com.aleson.marvel.marvelcharacters.feature.character.usecase.*
 
@@ -46,14 +47,10 @@ class CharactersDataSourceImpl(var database: RoomLocalDataBase?) : CharactersDat
         val caller = Connector.request().create(GetCharactersApi::class.java)
             .getCharacters(url.build().toString())
 
-        ConnectorHelper<CharacterDataWrapper>()
-            .doCall(
-                caller,
-                onError,
-                {
-                    onResponse(GetCharactersResponse(it))
-                }
-            )
+        ConnectorHelper<CharacterDataWrapper>().doCall(caller, onError)
+        {
+            onResponse(GetCharactersResponse(it))
+        }
     }
 
     override fun updateFavorite(
@@ -61,22 +58,7 @@ class CharactersDataSourceImpl(var database: RoomLocalDataBase?) : CharactersDat
         onResponse: (UpdateFavoriteResponse) -> Unit,
         onError: (ErrorModel) -> Unit
     ) {
-        try {
-            val previous = database?.favorites()?.getByName(request.character.name)
-
-            if (previous == null) {
-                request.character.favorite = true
-                database?.favorites()?.insert(request.character)
-                onResponse(UpdateFavoriteResponse(request.character))
-            } else {
-                request.character.favorite = false
-                database?.favorites()?.delete(request.character)
-                onResponse(UpdateFavoriteResponse(request.character))
-            }
-
-        } catch (e: Exception) {
-            onError(ErrorModel(e.toString()))
-        }
+        RoomHelper(database).update(request.character, onResponse, onError)
     }
 
     override fun getFavoriteStatus(
@@ -84,20 +66,14 @@ class CharactersDataSourceImpl(var database: RoomLocalDataBase?) : CharactersDat
         onResponse: (GetFavoriteResponse) -> Unit,
         onError: (ErrorModel) -> Unit
     ) {
-        try {
-            val previous = database?.favorites()?.isFavorite(request.id)
-            onResponse(GetFavoriteResponse(previous))
-        } catch (e: Exception) {
-            onError(ErrorModel(e.toString()))
-        }
+       RoomHelper(database).getStatus(request.id, onResponse, onError)
     }
 
     override fun getFavorites(
         onResponse: (GetFavoritesResponse) -> Unit,
         onError: (ErrorModel) -> Unit
     ) {
-        val characters = database?.favorites()?.getAll()
-        characters?.let { GetFavoritesResponse(it) }?.let { onResponse(it) }
+        RoomHelper(database).fetch(onResponse, onError)
     }
 
 }
