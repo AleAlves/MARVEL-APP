@@ -10,6 +10,7 @@ import androidx.recyclerview.widget.RecyclerView
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
 import com.aleson.marvel.marvelcharacters.R
 import com.aleson.marvel.marvelcharacters.core.base.ViewItem
+import com.aleson.marvel.marvelcharacters.core.extension.position
 import com.aleson.marvel.marvelcharacters.core.model.character.Character
 import com.aleson.marvel.marvelcharacters.core.ui.BaseRecyclerViewAdapter
 import com.aleson.marvel.marvelcharacters.feature.character.view.ui.viewholder.CharacterViewHolder
@@ -61,7 +62,7 @@ class CharactersWidget(context: Context, attributeSet: AttributeSet) :
         emptySearchLayout = view.findViewById(R.id.empty_search_layout_container)
         recyclerView.layoutManager = GridLayoutManager(context, COLUMNS)
         recyclerView.adapter = charactersAdapter
-        charactersAdapter.listItems.clear()
+        charactersAdapter.items.clear()
         charactersAdapter.clear()
         errorLayout.visibility = View.GONE
         emptyLayout.visibility = View.GONE
@@ -74,14 +75,17 @@ class CharactersWidget(context: Context, attributeSet: AttributeSet) :
         characters: List<Character>?
     ) {
         charactersAdapter.clear()
-        charactersAdapter.listItems.clear()
+        charactersAdapter.items.clear()
         characters?.forEach { character -> charactersAdapter.add(ViewItem(character)) }
         notifyDataChange()
+        if (loadingMore) {
+            scrollToPosition(position(charactersAdapter.items.size))
+        }
         loadingMore = false
     }
 
     fun updateFavoriteItem(character: Character) {
-        charactersAdapter.listItems.map { itemView ->
+        charactersAdapter.items.map { itemView ->
             if (itemView.data.id == character.id) {
                 itemView.data.favorite = character.favorite
             }
@@ -105,7 +109,7 @@ class CharactersWidget(context: Context, attributeSet: AttributeSet) :
         recyclerView.addOnScrollListener(object : RecyclerView.OnScrollListener() {
             override fun onScrolled(recyclerView: RecyclerView, dx: Int, dy: Int) {
                 super.onScrolled(recyclerView, dx, dy)
-                if (!recyclerView.canScrollVertically(DIRECTION) && dy != IDLE && !loadingMore && charactersAdapter.listItems.isNotEmpty()
+                if (!recyclerView.canScrollVertically(DIRECTION) && dy != IDLE && !loadingMore && charactersAdapter.items.isNotEmpty()
                 ) {
                     loadingMore = true
                     onLoadMore()
@@ -114,12 +118,12 @@ class CharactersWidget(context: Context, attributeSet: AttributeSet) :
         })
     }
 
-    fun isEmpty() = charactersAdapter.listItems.isEmpty()
+    fun isEmpty() = charactersAdapter.items.isEmpty()
 
-    fun getItems() = charactersAdapter.listItems
+    fun getItems() = charactersAdapter.items
 
     fun reset() {
-        charactersAdapter.listItems.clear()
+        charactersAdapter.items.clear()
         charactersAdapter.clear()
         clearExceptionStates()
         notifyDataChange()
@@ -144,6 +148,10 @@ class CharactersWidget(context: Context, attributeSet: AttributeSet) :
         errorLayout.visibility = View.GONE
         emptyLayout.visibility = View.GONE
         emptySearchLayout.visibility = View.GONE
+    }
+
+    fun scrollToPosition(position: Int) {
+        recyclerView.smoothScrollToPosition(position)
     }
 
 }

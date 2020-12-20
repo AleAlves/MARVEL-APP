@@ -73,6 +73,7 @@ abstract class BaseFragment : BaseDialogFragment() {
     fun showLoading() {
         if (dialog == null) {
             dialog = super.loading(context as Context) as Dialog
+            dialog?.show()
         } else {
             if (dialog?.isShowing as Boolean) {
                 throw Exception(MULTIPLE_LOADING)

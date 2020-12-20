@@ -33,7 +33,7 @@ class DetailsViewModel(
         async {
             getSeriesMedia.request = GetSeriesMediaRequest(uri)
             getSeriesMedia.execute({
-                onLoadMedia(it?.series?.data?.results?.get(0)?.thumbnail)
+                onLoadMedia(it?.series?.data?.results?.first()?.thumbnail)
             }, {
                 print(it?.message)
             })

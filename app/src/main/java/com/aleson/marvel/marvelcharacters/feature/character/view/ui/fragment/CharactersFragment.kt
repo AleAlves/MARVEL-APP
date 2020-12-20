@@ -1,6 +1,5 @@
 package com.aleson.marvel.marvelcharacters.feature.character.view.ui.fragment
 
-import android.os.Bundle
 import android.text.InputType
 import android.view.View
 import android.widget.EditText

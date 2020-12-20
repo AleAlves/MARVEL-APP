@@ -19,7 +19,6 @@ class ResourceWidget(context: Context, attributeSet: AttributeSet) :
 
     private var title: TextView
     private var recyclerView: RecyclerView
-    private val items: MutableList<ViewItem<Resource>> = mutableListOf()
 
     private var view: View = LayoutInflater.from(context).inflate(
         R.layout.resource_list_view, this, true
@@ -50,15 +49,14 @@ class ResourceWidget(context: Context, attributeSet: AttributeSet) :
     fun addAll(
         resources: List<Resource>?
     ) {
-        items.clear()
+        adapter.items.clear()
         adapter.clear()
-        resources?.map { resource -> items.add(ViewItem(resource)) }
-        adapter.add(items)
+        resources?.map { resource -> adapter.items.add(ViewItem(resource)) }
         emptyState()
     }
 
-    private fun emptyState(){
-        if(items.isEmpty()){
+    private fun emptyState() {
+        if (adapter.items.isEmpty()) {
             title.visibility = View.GONE
         }
     }

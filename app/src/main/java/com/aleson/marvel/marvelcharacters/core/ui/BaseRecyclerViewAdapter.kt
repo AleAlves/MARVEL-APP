@@ -7,7 +7,7 @@ import androidx.recyclerview.widget.RecyclerView
 
 abstract class BaseRecyclerViewAdapter<T> : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
 
-    var listItems: MutableList<T> = mutableListOf()
+    var items: MutableList<T> = mutableListOf()
     private lateinit var viewHolder: RecyclerView.ViewHolder
 
     override fun onCreateViewHolder(
@@ -22,15 +22,15 @@ abstract class BaseRecyclerViewAdapter<T> : RecyclerView.Adapter<RecyclerView.Vi
     }
 
     override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int) {
-        (holder as GenericBinder<T>).bind(listItems[position], position)
+        (holder as GenericBinder<T>).bind(items[position], position)
     }
 
     override fun getItemCount(): Int {
-        return listItems.size
+        return items.size
     }
 
     override fun getItemViewType(position: Int): Int {
-        return getLayoutId(position, listItems[position])
+        return getLayoutId(position, items[position])
     }
 
     protected abstract fun getLayoutId(position: Int, obj: T): Int
@@ -38,7 +38,7 @@ abstract class BaseRecyclerViewAdapter<T> : RecyclerView.Adapter<RecyclerView.Vi
     abstract fun getViewHolder(view: View, viewType: Int): RecyclerView.ViewHolder
 
     fun clear() {
-        listItems.clear()
+        items.clear()
     }
 
     fun add(newItems: List<T>) {
@@ -46,15 +46,15 @@ abstract class BaseRecyclerViewAdapter<T> : RecyclerView.Adapter<RecyclerView.Vi
     }
 
     fun add(newItem: T) {
-        listItems.add(newItem)
+        items.add(newItem)
         this.notifyDataSetChanged()
     }
 
     private fun addAndNotify(newItems: List<T>) {
-        if (listItems.isEmpty()) {
-            listItems.addAll(newItems)
+        if (items.isEmpty()) {
+            items.addAll(newItems)
         } else {
-            listItems.addAll(listItems.size, newItems)
+            items.addAll(items.size, newItems)
         }
         this.notifyDataSetChanged()
     }
