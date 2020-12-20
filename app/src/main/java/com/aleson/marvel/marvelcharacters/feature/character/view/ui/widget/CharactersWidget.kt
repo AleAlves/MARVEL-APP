@@ -25,6 +25,7 @@ class CharactersWidget(context: Context, attributeSet: AttributeSet) :
     private var swipeRefresh: SwipeRefreshLayout
     private var errorLayout: ConstraintLayout
     private var emptyLayout: ConstraintLayout
+    private var emptySearchLayout: ConstraintLayout
     private var loadingMore = false
 
     lateinit var onItemSelected: (Character) -> Unit
@@ -59,11 +60,13 @@ class CharactersWidget(context: Context, attributeSet: AttributeSet) :
         swipeRefresh = view.findViewById(R.id.characters_swipe_refresh)
         errorLayout = view.findViewById(R.id.error_layout_container)
         emptyLayout = view.findViewById(R.id.empty_layout_container)
+        emptySearchLayout = view.findViewById(R.id.empty_search_layout_container)
         recyclerView.layoutManager = GridLayoutManager(context, COLUMNS)
         recyclerView.adapter = charactersAdapter
         charactersAdapter.clear()
         errorLayout.visibility = View.GONE
         emptyLayout.visibility = View.GONE
+        emptySearchLayout.visibility = View.GONE
         items.clear()
         onSwipeListener()
         onScrollListener()
@@ -105,7 +108,7 @@ class CharactersWidget(context: Context, attributeSet: AttributeSet) :
         recyclerView.addOnScrollListener(object : RecyclerView.OnScrollListener() {
             override fun onScrolled(recyclerView: RecyclerView, dx: Int, dy: Int) {
                 super.onScrolled(recyclerView, dx, dy)
-                if (!recyclerView.canScrollVertically(DIRECTION) && dy != IDLE && !loadingMore && items.isEmpty()
+                if (!recyclerView.canScrollVertically(DIRECTION) && dy != IDLE && !loadingMore && items.isNotEmpty()
                 ) {
                     loadingMore = true
                     onLoadMore()
@@ -121,12 +124,18 @@ class CharactersWidget(context: Context, attributeSet: AttributeSet) :
     fun reset() {
         items.clear()
         charactersAdapter.clear()
+        clearExceptionStates()
         notifyDataChange()
     }
 
     fun onError() {
         reset()
         errorLayout.visibility = View.VISIBLE
+    }
+
+    fun onEmptySearch() {
+        reset()
+        emptySearchLayout.visibility = View.VISIBLE
     }
 
     fun onEmpty() {
@@ -137,6 +146,7 @@ class CharactersWidget(context: Context, attributeSet: AttributeSet) :
     private fun clearExceptionStates() {
         errorLayout.visibility = View.GONE
         emptyLayout.visibility = View.GONE
+        emptySearchLayout.visibility = View.GONE
     }
 
 }

@@ -25,4 +25,6 @@
 
     <include layout="@layout/empty_view" />
 
+    <include layout="@layout/empty_search" />
+
 </androidx.constraintlayout.widget.ConstraintLayout>

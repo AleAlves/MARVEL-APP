@@ -7,5 +7,6 @@
     <string name="label_details_title_series">Series</string>
     <string name="label_characters_search_hint">Find a character by its name</string>
     <string name="label_generic_error_message">Sorry, something went wrong....try again later</string>
+    <string name="label_empty_search_message">No results found</string>
     <string name="label_generic_empty_message">Nothing around here yet...</string>
 </resources>

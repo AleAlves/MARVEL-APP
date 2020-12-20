@@ -136,8 +136,13 @@ class CharactersFragment : BaseFragment() {
 
     private fun onLoadSearchResult(characters: ArrayList<Character>?) {
         super.hideLoading()
-        charactersWidget.addAll(characters)
-        onBindFavorites()
+        val empty = characters?.isEmpty()
+        if (empty != null && empty) {
+            charactersWidget.onEmptySearch()
+        } else {
+            charactersWidget.addAll(characters)
+            onBindFavorites()
+        }
     }
 
     private fun onBindFavorites() {
