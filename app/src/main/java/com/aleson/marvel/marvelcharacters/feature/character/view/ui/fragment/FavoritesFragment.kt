@@ -79,7 +79,7 @@ class FavoritesFragment : BaseFragment() {
     }
 
     private fun onError(message: String?) {
-        favorites.onError(message)
+        favorites.onError()
         super.showToast(context, message.toString())
     }
 

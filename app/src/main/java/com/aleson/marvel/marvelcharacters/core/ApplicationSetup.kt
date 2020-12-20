@@ -17,6 +17,7 @@ class ApplicationSetup {
         const val privateKey = "12fdc64385ad40054f84c773588ee2e7c9f0d6af"
         const val digest = "MD5"
         const val room = "database"
+        const val toastColor = "#f9a825"
 
         class Values{
 

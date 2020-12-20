@@ -2,6 +2,7 @@ package com.aleson.marvel.marvelcharacters.core.base
 
 import android.app.Dialog
 import android.content.Context
+import android.graphics.Color
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -11,7 +12,8 @@ import android.widget.ImageView
 import android.widget.TextView
 import android.widget.Toast
 import androidx.appcompat.widget.Toolbar
-import com.aleson.marvel.marvelcharacters.R
+import com.aleson.marvel.marvelcharacters.core.ApplicationSetup.Companion.toastColor
+import com.aleson.marvel.marvelcharacters.core.model.error.MULTIPLE_LOADING
 
 
 abstract class BaseFragment : BaseDialogFragment() {
@@ -63,7 +65,9 @@ abstract class BaseFragment : BaseDialogFragment() {
 
     fun showToast(context: Context?, message: String?) {
         hideLoading()
-        Toast.makeText(context, message, Toast.LENGTH_LONG).show()
+        val toast: Toast = Toast.makeText(context, message, Toast.LENGTH_LONG)
+        toast.view?.setBackgroundColor(Color.parseColor(toastColor))
+        toast.show()
     }
 
     fun showLoading() {
@@ -71,7 +75,7 @@ abstract class BaseFragment : BaseDialogFragment() {
             dialog = super.loading(context as Context) as Dialog
         } else {
             if (dialog?.isShowing as Boolean) {
-                throw Exception("Can't show more than one loading")
+                throw Exception(MULTIPLE_LOADING)
             } else {
                 dialog?.show()
             }
