@@ -1,13 +1,15 @@
 package com.aleson.marvel.marvelcharacters.core.helper
 
+import android.content.Context
 import com.aleson.marvel.marvelcharacters.core.ApplicationSetup
-import com.aleson.marvel.marvelcharacters.core.model.error.ErrorModel
+import com.aleson.marvel.marvelcharacters.core.model.error.*
 import retrofit2.Call
 import retrofit2.Callback
 
 class ConnectorHelper<T> {
 
     fun doCall(
+        context: Context?,
         request: Call<T>,
         onError: (ErrorModel) -> Unit,
         onResponse: (T) -> Unit
@@ -28,7 +30,11 @@ class ConnectorHelper<T> {
             }
         }
 
-        request.enqueue(call)
+        if (InternetHelper().available(context)) {
+            request.enqueue(call)
+        } else {
+            onError(ErrorModel(NETWORK_MESSAGE, NETWORK_CODE))
+        }
     }
 
 }

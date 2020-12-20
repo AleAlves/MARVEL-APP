@@ -1,5 +1,6 @@
 package com.aleson.marvel.marvelcharacters.feature.detail.repository.data
 
+import android.content.Context
 import android.net.Uri
 import br.com.connector.aleson.android.connector.Connector
 import com.aleson.marvel.marvelcharacters.core.ApplicationSetup
@@ -17,7 +18,7 @@ import com.aleson.marvel.marvelcharacters.feature.character.usecase.UpdateFavori
 import com.aleson.marvel.marvelcharacters.feature.detail.repository.api.GetMediaApi
 import com.aleson.marvel.marvelcharacters.feature.detail.usecase.*
 
-class DetailsDataSourceImpl(var database: RoomLocalDataBase?) :
+class DetailsDataSourceImpl(val context: Context?, val database: RoomLocalDataBase?) :
     DetailsDataSource {
 
     override fun getComicsMedia(
@@ -34,7 +35,7 @@ class DetailsDataSourceImpl(var database: RoomLocalDataBase?) :
 
         val caller = Connector.request().create(GetMediaApi::class.java).getComicsMedia(url)
 
-        ConnectorHelper<ComicsDataWrapper>().doCall(caller, onError) {
+        ConnectorHelper<ComicsDataWrapper>().doCall(context, caller, onError) {
             onResponse(GetComicsMediaResponse(it))
         }
     }
@@ -52,7 +53,7 @@ class DetailsDataSourceImpl(var database: RoomLocalDataBase?) :
 
         val caller = Connector.request().create(GetMediaApi::class.java).getSeriesMedia(url)
 
-        ConnectorHelper<SeriesDataWrapper>().doCall(caller, onError)
+        ConnectorHelper<SeriesDataWrapper>().doCall(context, caller, onError)
         {
             GetSeriesMediaResponse(it)
         }

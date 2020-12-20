@@ -1,11 +1,9 @@
 package com.aleson.marvel.marvelcharacters.feature.character.view.ui.fragment
 
 import android.view.View
-import android.widget.Button
 import androidx.core.os.bundleOf
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
-import androidx.navigation.fragment.NavHostFragment
 import androidx.navigation.fragment.findNavController
 import com.aleson.marvel.marvelcharacters.R
 import com.aleson.marvel.marvelcharacters.core.base.BaseFragment
@@ -81,7 +79,7 @@ class FavoritesFragment : BaseFragment() {
     }
 
     private fun onError(message: String?) {
-        favorites.onError()
+        favorites.onError(message)
         super.showToast(context, message.toString())
     }
 

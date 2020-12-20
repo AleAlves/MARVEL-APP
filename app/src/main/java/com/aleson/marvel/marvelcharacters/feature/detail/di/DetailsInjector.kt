@@ -6,14 +6,13 @@ import com.aleson.marvel.marvelcharacters.feature.detail.di.factory.DetailsViewM
 import com.aleson.marvel.marvelcharacters.feature.detail.repository.data.DetailsDataSourceImpl
 import com.aleson.marvel.marvelcharacters.feature.detail.repository.DetailsRepository
 
-class DetailsInjector : BaseInjector(){
+class DetailsInjector : BaseInjector() {
 
     companion object {
         private fun repository(context: Context?) = DetailsRepository(
-            DetailsDataSourceImpl(
-                database(context)
-            )
+            DetailsDataSourceImpl(context, database(context))
         )
+
         fun provideDetailsViewModelFactory(context: Context?) =
             DetailsViewModelFactory(
                 repository(context)

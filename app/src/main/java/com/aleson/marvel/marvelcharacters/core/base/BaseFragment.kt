@@ -11,7 +11,8 @@ import android.widget.ImageView
 import android.widget.TextView
 import android.widget.Toast
 import androidx.appcompat.widget.Toolbar
-import com.aleson.marvel.marvelcharacters.core.model.character.Character
+import com.aleson.marvel.marvelcharacters.R
+
 
 abstract class BaseFragment : BaseDialogFragment() {
 
@@ -60,9 +61,9 @@ abstract class BaseFragment : BaseDialogFragment() {
         parentFragment?.onResume()
     }
 
-    fun showToast(context: Context?, string: String?) {
+    fun showToast(context: Context?, message: String?) {
         hideLoading()
-        Toast.makeText(context, string, Toast.LENGTH_LONG).show()
+        Toast.makeText(context, message, Toast.LENGTH_LONG).show()
     }
 
     fun showLoading() {

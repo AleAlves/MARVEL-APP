@@ -3,6 +3,7 @@ package com.aleson.marvel.marvelcharacters.feature.character.repository.data
 import android.content.Context
 import com.aleson.marvel.marvelcharacters.R
 import com.aleson.marvel.marvelcharacters.core.extension.mockLoader
+import com.aleson.marvel.marvelcharacters.core.helper.RoomHelper
 import com.aleson.marvel.marvelcharacters.core.model.character.CharacterDataWrapper
 import com.aleson.marvel.marvelcharacters.core.model.error.ErrorModel
 import com.aleson.marvel.marvelcharacters.core.room.dao.RoomLocalDataBase
@@ -24,22 +25,7 @@ class CharactersMockDataSourceImpl(var context: Context?, var database: RoomLoca
         onResponse: (UpdateFavoriteResponse) -> Unit,
         onError: (ErrorModel) -> Unit
     ) {
-        try {
-            val previous = database?.favorites()?.getByName(request.character.name)
-
-            if (previous == null) {
-                request.character.favorite = true
-                database?.favorites()?.insert(request.character)
-                onResponse(UpdateFavoriteResponse(request.character))
-            } else {
-                request.character.favorite = false
-                database?.favorites()?.delete(request.character)
-                onResponse(UpdateFavoriteResponse(request.character))
-            }
-
-        } catch (e: Exception) {
-            onError(ErrorModel(e.toString()))
-        }
+        RoomHelper(database).update(request.character, onResponse, onError)
     }
 
     override fun getFavoriteStatus(
@@ -47,20 +33,14 @@ class CharactersMockDataSourceImpl(var context: Context?, var database: RoomLoca
         onResponse: (GetFavoriteResponse) -> Unit,
         onError: (ErrorModel) -> Unit
     ) {
-        try {
-            val previous = database?.favorites()?.isFavorite(request.id)
-            onResponse(GetFavoriteResponse(previous))
-        } catch (e: Exception) {
-            onError(ErrorModel(e.toString()))
-        }
+        RoomHelper(database).getStatus(request.id, onResponse, onError)
     }
 
     override fun getFavorites(
         onResponse: (GetFavoritesResponse) -> Unit,
         onError: (ErrorModel) -> Unit
     ) {
-        val characters = database?.favorites()?.getAll()
-        characters?.let { GetFavoritesResponse(it) }?.let { onResponse(it) }
+        RoomHelper(database).fetch(onResponse, onError)
     }
 
 }

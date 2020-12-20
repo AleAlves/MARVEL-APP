@@ -1,6 +1,7 @@
 package com.aleson.marvel.marvelcharacters.core.base
 
 import androidx.lifecycle.ViewModel
+import com.aleson.marvel.marvelcharacters.core.model.error.COROUTINES
 import com.aleson.marvel.marvelcharacters.core.model.error.Exceptions
 import kotlinx.coroutines.*
 import kotlin.coroutines.CoroutineContext
@@ -24,7 +25,7 @@ abstract class BaseViewModel<ViewEvent> : ViewModel(), CoroutineScope {
             try {
                 function.invoke()
             } catch (e: Exception) {
-                onError(Exceptions.COROUTINES.name)
+                onError(COROUTINES)
             }
         }
     }

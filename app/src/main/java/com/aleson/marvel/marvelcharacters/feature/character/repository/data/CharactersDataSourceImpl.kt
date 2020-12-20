@@ -1,5 +1,6 @@
 package com.aleson.marvel.marvelcharacters.feature.character.repository.data
 
+import android.content.Context
 import android.net.Uri
 import br.com.connector.aleson.android.connector.Connector
 import com.aleson.marvel.marvelcharacters.core.ApplicationSetup.Companion.API.Companion.characters
@@ -22,7 +23,10 @@ import com.aleson.marvel.marvelcharacters.feature.character.repository.api.GetCh
 import com.aleson.marvel.marvelcharacters.feature.character.usecase.*
 
 
-class CharactersDataSourceImpl(var database: RoomLocalDataBase?) : CharactersDataSource {
+class CharactersDataSourceImpl(
+    val context: Context?,
+    val database: RoomLocalDataBase?
+) : CharactersDataSource {
 
     override fun getCharacters(
         request: GetCharactersRequest,
@@ -47,7 +51,7 @@ class CharactersDataSourceImpl(var database: RoomLocalDataBase?) : CharactersDat
         val caller = Connector.request().create(GetCharactersApi::class.java)
             .getCharacters(url.build().toString())
 
-        ConnectorHelper<CharacterDataWrapper>().doCall(caller, onError)
+        ConnectorHelper<CharacterDataWrapper>().doCall(context, caller, onError)
         {
             onResponse(GetCharactersResponse(it))
         }
