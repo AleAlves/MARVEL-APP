@@ -48,4 +48,4 @@ http://gateway.marvel.com/v1/public/comics/24571
 
 
 ## License
-This project is licensed under the terms of the MIT license. See the LICENSE file.
+GNU General Public License v3.0
