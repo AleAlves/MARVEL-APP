@@ -20,16 +20,16 @@
 
     <TextView
         android:id="@+id/character_details_textview_name"
-        style="@style/textBold16"
-
-        android:layout_width="wrap_content"
+        style="@style/textBold12"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_margin="@dimen/size_10dp"
-        android:padding="@dimen/size_8dp"
+        android:gravity="left"
+        android:padding="@dimen/size_4dp"
         app:layout_constraintBottom_toBottomOf="@+id/imageview_character_image_button"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="@+id/imageview_character_image_button"
-        tools:text="Mercado" />
+        app:layout_constraintEnd_toStartOf="@+id/imageview_character_image_button"
+        tools:text="Character" />
 
     <ImageButton
         android:id="@+id/imageview_character_image_button"
