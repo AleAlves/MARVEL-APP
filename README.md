@@ -16,7 +16,7 @@ taking advantage of the jetpack tools:
 #### Third party tools:
 
 - Glide
-- Connector
+- Retrofit
 
 ## Origin
 

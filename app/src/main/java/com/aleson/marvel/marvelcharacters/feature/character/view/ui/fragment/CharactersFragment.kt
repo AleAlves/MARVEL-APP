@@ -8,6 +8,7 @@ import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 import androidx.navigation.fragment.findNavController
 import com.aleson.marvel.marvelcharacters.R
+import com.aleson.marvel.marvelcharacters.core.ApplicationSetup
 import com.aleson.marvel.marvelcharacters.core.base.BaseFragment
 import com.aleson.marvel.marvelcharacters.core.extension.offsetSchema
 import com.aleson.marvel.marvelcharacters.core.model.character.Character
@@ -38,11 +39,12 @@ class CharactersFragment : BaseFragment() {
     }
 
     override fun setupView() {
-        offset = 0
+        offset = INITIAL_OFFSET
         characterSearch.inputType = InputType.TYPE_CLASS_TEXT
         if (viewModel.characters.isEmpty()) {
             fetch()
         } else {
+            offset = viewModel.characters.size + ApplicationSetup.Companion.Values.limit
             onLoadMoreCharacters(viewModel.characters)
         }
     }
