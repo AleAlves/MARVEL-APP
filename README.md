@@ -37,9 +37,9 @@ http://gateway.marvel.com/v1/public/comics/24571
 
 ## Screen
 
-![Alt text](src/main/res/drawable/screen_1.png "Optional title")
-![Alt text](src/main/res/drawable/screen_2.png "Optional title")
-![Alt text](src/main/res/drawable/screen_3.png"Optional title")
+![Alt text](drawable/screen_1.png?raw=true "Title")
+![Alt text](drawable/screen_2.png.png "Optional title")
+![Alt text](app/src/main/res/drawable/screen_2.png"Optional title")
 ![Alt text](src/main/res/drawable/screen_4.png "Optional title")
 ![Alt text](src/main/res/drawable/screen_5.png "Optional title")
 ![Alt text](src/main/res/drawable/screen_6.png "Optional title")
