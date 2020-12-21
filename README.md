@@ -38,11 +38,11 @@ http://gateway.marvel.com/v1/public/comics/24571
 ## Screen
 
 ![Alt text](app/src/main/res/drawable/screen_1.png)
-![Alt text](screen/screen_2.png.png "Optional title")
-![Alt text](app/src/main/res/drawable/screen_2.png"Optional title")
-![Alt text](src/main/res/drawable/screen_4.png "Optional title")
-![Alt text](src/main/res/drawable/screen_5.png "Optional title")
-![Alt text](src/main/res/drawable/screen_6.png "Optional title")
+![Alt text](app/src/main/res/drawable/screen_2.png)
+![Alt text](app/src/main/res/drawable/screen_3.png)
+![Alt text](app/src/main/res/drawable/screen_4.png)
+![Alt text](app/src/main/res/drawable/screen_5.png)
+![Alt text](app/src/main/res/drawable/screen_6.png)
 
 ## License
 This project is licensed under the terms of the MIT license. See the LICENSE file.
