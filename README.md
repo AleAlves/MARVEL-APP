@@ -29,7 +29,7 @@ http://gateway.marvel.com/v1/public/comics/24571
 -   MinSdk 21+ (Android 5.0)
 
 ## Screen
-
+<img src="app/src/main/res/drawable/screen_1.png" width="20" />
 ![Alt text](app/src/main/res/drawable/screen_1.png =100x20)
 ![Alt text](app/src/main/res/drawable/screen_2.png =100x20)
 ![Alt text](app/src/main/res/drawable/screen_3.png =100x20)
